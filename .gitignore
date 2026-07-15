@@ -1,6 +1,8 @@
-/target/
+*/target/*
 !.mvn/wrapper/maven-wrapper.jar
 *.log
+openspec/
+scripts/
 
 ### Node ###
 node_modules/
