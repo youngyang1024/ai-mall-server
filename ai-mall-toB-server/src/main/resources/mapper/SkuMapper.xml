@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aimall.tob.mapper.SkuMapper">
+
+    <resultMap id="BaseResultMap" type="com.aimall.common.entity.Sku">
+        <id column="id" property="id"/>
+        <result column="spu_id" property="spuId"/>
+        <result column="spec_json" property="specJson"/>
+        <result column="price" property="price"/>
+        <result column="stock" property="stock"/>
+        <result column="image" property="image"/>
+        <result column="sku_code" property="skuCode"/>
+    </resultMap>
+
+    <select id="selectBySpuId" resultMap="BaseResultMap">
+        SELECT * FROM t_sku WHERE spu_id = #{spuId} ORDER BY id ASC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_sku (spu_id, spec_json, price, stock, image, sku_code)
+        VALUES (#{spuId}, #{specJson}, #{price}, #{stock}, #{image}, #{skuCode})
+    </insert>
+
+    <delete id="deleteBySpuId">
+        DELETE FROM t_sku WHERE spu_id = #{spuId}
+    </delete>
+
+    <update id="restoreStock">
+        UPDATE t_sku SET stock = stock + #{quantity} WHERE id = #{id}
+    </update>
+</mapper>

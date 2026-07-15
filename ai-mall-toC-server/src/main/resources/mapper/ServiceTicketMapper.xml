@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aimall.toc.mapper.ServiceTicketMapper">
+
+    <resultMap id="BaseResultMap" type="com.aimall.common.entity.ServiceTicket">
+        <id column="id" property="id"/>
+        <result column="ticket_no" property="ticketNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="issue_id" property="issueId"/>
+        <result column="issue_name" property="issueName"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="content" property="content"/>
+        <result column="status" property="status"/>
+        <result column="contact_first_name" property="contactFirstName"/>
+        <result column="contact_last_name" property="contactLastName"/>
+        <result column="contact_email" property="contactEmail"/>
+        <result column="contact_area_code" property="contactAreaCode"/>
+        <result column="contact_phone" property="contactPhone"/>
+        <result column="last_reply_user_type" property="lastReplyUserType"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_service_ticket (
+            ticket_no, user_id, category_id, category_name, issue_id, issue_name, order_no, content,
+            status, contact_first_name, contact_last_name, contact_email, contact_area_code, contact_phone,
+            last_reply_user_type
+        ) VALUES (
+            #{ticketNo}, #{userId}, #{categoryId}, #{categoryName}, #{issueId}, #{issueName}, #{orderNo}, #{content},
+            #{status}, #{contactFirstName}, #{contactLastName}, #{contactEmail}, #{contactAreaCode}, #{contactPhone},
+            #{lastReplyUserType}
+        )
+    </insert>
+
+    <select id="selectByTicketNoAndUserId" resultMap="BaseResultMap">
+        SELECT * FROM t_service_ticket
+        WHERE ticket_no = #{ticketNo} AND user_id = #{userId}
+        LIMIT 1
+    </select>
+
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT * FROM t_service_ticket
+        WHERE user_id = #{userId}
+        ORDER BY update_time DESC, id DESC
+    </select>
+
+    <update id="updateStatusAndLastReply">
+        UPDATE t_service_ticket
+        SET status = #{status},
+            last_reply_user_type = #{lastReplyUserType},
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStatusByUser">
+        UPDATE t_service_ticket
+        SET status = #{status},
+            update_time = NOW()
+        WHERE id = #{id} AND user_id = #{userId}
+    </update>
+</mapper>

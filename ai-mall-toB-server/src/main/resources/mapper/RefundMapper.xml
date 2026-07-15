@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aimall.tob.mapper.RefundMapper">
+
+    <resultMap id="BaseResultMap" type="com.aimall.common.entity.Refund">
+        <id column="id" property="id"/>
+        <result column="refund_no" property="refundNo"/>
+        <result column="order_id" property="orderId"/>
+        <result column="user_id" property="userId"/>
+        <result column="refund_amount" property="refundAmount"/>
+        <result column="reason" property="reason"/>
+        <result column="status" property="status"/>
+        <result column="order_status_before" property="orderStatusBefore"/>
+        <result column="reject_reason" property="rejectReason"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT * FROM t_refund
+        <where>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM t_refund WHERE id = #{id} LIMIT 1
+    </select>
+
+    <update id="updateApproved">
+        UPDATE t_refund SET status = 1 WHERE id = #{id} AND status = 0
+    </update>
+
+    <update id="updateRejected">
+        UPDATE t_refund SET status = 2, reject_reason = #{rejectReason}
+        WHERE id = #{id} AND status = 0
+    </update>
+</mapper>

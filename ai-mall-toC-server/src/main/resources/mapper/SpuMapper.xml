@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aimall.toc.mapper.SpuMapper">
+    <resultMap id="BaseResultMap" type="com.aimall.common.entity.Spu">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="description" property="description"/>
+        <result column="main_image" property="mainImage"/>
+        <result column="status" property="status"/>
+        <result column="sales_count" property="salesCount"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="min_price" property="minPrice"/>
+    </resultMap>
+
+    <sql id="ListItemSelect">
+        SELECT s.id, s.name, s.category_id, s.description, s.main_image, s.status, s.sales_count,
+               s.create_time, s.update_time,
+               (SELECT MIN(price) FROM t_sku WHERE spu_id = s.id) AS min_price
+        FROM t_spu s
+    </sql>
+
+    <select id="selectOnShelfList" resultMap="BaseResultMap">
+        <include refid="ListItemSelect"/>
+        WHERE s.status = 1
+        <if test="name != null and name != ''">AND s.name LIKE CONCAT('%', #{name}, '%')</if>
+        <if test="categoryId != null">
+            AND (s.category_id = #{categoryId} OR s.category_id IN (SELECT id FROM t_category WHERE parent_id = #{categoryId} AND status = 1))
+        </if>
+        ORDER BY s.id DESC
+    </select>
+
+    <select id="selectOnShelfById" resultMap="BaseResultMap">
+        <include refid="ListItemSelect"/>
+        WHERE s.id = #{id} AND s.status = 1
+    </select>
+
+    <select id="selectHotSales" resultMap="BaseResultMap">
+        <include refid="ListItemSelect"/>
+        WHERE s.status = 1
+        ORDER BY s.sales_count DESC, s.id DESC
+        LIMIT #{limit}
+    </select>
+
+    <select id="selectForYou" resultMap="BaseResultMap">
+        <include refid="ListItemSelect"/>
+        WHERE s.status = 1
+          AND s.category_id = (SELECT category_id FROM t_spu WHERE id = #{spuId} AND status = 1)
+          AND s.id != #{spuId}
+        ORDER BY s.sales_count DESC, s.id DESC
+        LIMIT #{limit}
+    </select>
+
+    <select id="selectViewedAlso" resultMap="BaseResultMap">
+        <include refid="ListItemSelect"/>
+        WHERE s.status = 1
+          AND s.category_id IN (
+            SELECT category_id FROM (
+                SELECT DISTINCT category_id FROM t_spu
+                WHERE status = 1 AND name LIKE CONCAT('%', #{keyword}, '%')
+                LIMIT 5
+            ) viewed_categories
+          )
+        <if test="keyword != null and keyword != ''">
+          AND s.name NOT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        ORDER BY s.sales_count DESC, s.id DESC
+        LIMIT #{limit}
+    </select>
+
+    <select id="selectByIds" resultMap="BaseResultMap">
+        <include refid="ListItemSelect"/>
+        WHERE s.status = 1 AND s.id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        ORDER BY FIELD(s.id,
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </select>
+
+    <select id="selectBoughtAlsoFallback" resultMap="BaseResultMap">
+        <include refid="ListItemSelect"/>
+        WHERE s.status = 1 AND s.category_id = #{categoryId}
+        ORDER BY s.sales_count DESC, s.id DESC
+        LIMIT #{limit}
+    </select>
+
+    <update id="incrementSalesCount">
+        UPDATE t_spu SET sales_count = sales_count + #{quantity} WHERE id = #{spuId}
+    </update>
+</mapper>

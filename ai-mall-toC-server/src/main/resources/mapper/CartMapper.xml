@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aimall.toc.mapper.CartMapper">
+
+    <resultMap id="CartResultMap" type="com.aimall.common.entity.Cart">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="sku_id" property="skuId"/>
+        <result column="quantity" property="quantity"/>
+        <result column="checked" property="checked"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="CartItemVOResultMap" type="com.aimall.toc.vo.CartItemVO">
+        <id column="id" property="id"/>
+        <result column="sku_id" property="skuId"/>
+        <result column="spu_id" property="spuId"/>
+        <result column="spu_name" property="spuName"/>
+        <result column="sku_spec" property="skuSpec"/>
+        <result column="image" property="image"/>
+        <result column="price" property="price"/>
+        <result column="stock" property="stock"/>
+        <result column="quantity" property="quantity"/>
+        <result column="checked" property="checked"/>
+        <result column="spu_status" property="spuStatus"/>
+    </resultMap>
+
+    <select id="selectByUserId" resultMap="CartItemVOResultMap">
+        SELECT c.id, c.sku_id, c.quantity, c.checked,
+               s.spu_id, s.spec_json AS sku_spec, s.price, s.stock,
+               IFNULL(s.image, sp.main_image) AS image,
+               sp.name AS spu_name, sp.status AS spu_status
+        FROM t_cart c
+        INNER JOIN t_sku s ON c.sku_id = s.id
+        INNER JOIN t_spu sp ON s.spu_id = sp.id
+        WHERE c.user_id = #{userId}
+        ORDER BY c.id DESC
+    </select>
+
+    <select id="selectByUserIdAndSkuId" resultMap="CartResultMap">
+        SELECT * FROM t_cart WHERE user_id = #{userId} AND sku_id = #{skuId} LIMIT 1
+    </select>
+
+    <select id="selectById" resultMap="CartResultMap">
+        SELECT * FROM t_cart WHERE id = #{id} LIMIT 1
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_cart (user_id, sku_id, quantity, checked)
+        VALUES (#{userId}, #{skuId}, #{quantity}, #{checked})
+    </insert>
+
+    <update id="update">
+        UPDATE t_cart SET sku_id = #{skuId}, quantity = #{quantity}, checked = #{checked} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM t_cart WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByUserId">
+        DELETE FROM t_cart WHERE user_id = #{userId}
+    </delete>
+
+    <delete id="deleteByUserIdAndSkuIds">
+        DELETE FROM t_cart WHERE user_id = #{userId}
+        AND sku_id IN
+        <foreach collection="skuIds" item="skuId" open="(" separator="," close=")">#{skuId}</foreach>
+    </delete>
+
+    <delete id="deleteByIds">
+        DELETE FROM t_cart WHERE user_id = #{userId}
+        AND id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">#{id}</foreach>
+    </delete>
+</mapper>

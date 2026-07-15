@@ -1,0 +1,105 @@
+/* Shopify Dawn-like Modern Theme Variables */
+:root {
+  --color-primary: #121212;
+  --color-secondary: #f3f3f3;
+  --color-text-main: #121212;
+  --color-text-muted: #5c5c5c;
+  --color-border: #e8e8e8;
+  --color-background: #ffffff;
+  --color-surface: #f9f9f9;
+  --color-accent: #c45500;
+  
+  --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  font-family: var(--font-family-base);
+  color: var(--color-text-main);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Base Utility Classes */
+.shopify-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: 1px solid var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 2px;
+  text-decoration: none;
+}
+
+.shopify-btn:hover {
+  background: #333;
+  border-color: #333;
+}
+
+.shopify-btn--outline {
+  background: transparent;
+  color: var(--color-primary);
+}
+
+.shopify-btn--outline:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.shopify-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Vant overrides to look more premium */
+.van-button--danger {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+.van-button--warning {
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text-main) !important;
+}
+.van-button {
+  border-radius: 2px !important;
+}
+
+/* App Body Spacing */
+.app-body {
+  min-height: calc(100vh - 200px);
+}
+.is-mobile .app-body {
+  padding-bottom: 60px; /* Tabbar space */
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+a:hover {
+  opacity: 0.7;
+}

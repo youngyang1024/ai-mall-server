@@ -1,0 +1,94 @@
+/* PC + Mobile responsive overrides */
+
+.is-pc .mobile-nav {
+  display: none !important;
+}
+
+.is-pc .van-tabbar,
+.is-pc .van-goods-action,
+.is-pc .van-submit-bar {
+  left: 50% !important;
+  right: auto !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  transform: translateX(-50%);
+}
+
+.is-pc .van-submit-bar,
+.is-pc .van-goods-action {
+  bottom: 0;
+}
+
+.is-pc .app-body {
+  padding-top: 0;
+}
+
+.is-pc .category-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 16px;
+  min-height: 560px;
+}
+
+.is-pc .category-layout .van-sidebar {
+  width: 220px !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.is-pc .category-layout .right-panel {
+  background: #fff;
+  border-radius: 8px;
+}
+
+.is-pc .user-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 16px;
+}
+
+.is-pc .user-layout .van-cell-group {
+  margin: 0 !important;
+}
+
+.is-pc .coupon-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.is-pc .order-card,
+.is-pc .refund-card,
+.is-pc .cart-item {
+  border-radius: 8px;
+}
+
+.is-pc .auth-card {
+  max-width: 420px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.is-pc .checkout-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 16px;
+}
+
+.is-pc .checkout-side {
+  position: sticky;
+  top: 88px;
+}
+
+@media (max-width: 767px) {
+  .is-pc .coupon-grid,
+  .is-pc .category-layout,
+  .is-pc .user-layout,
+  .is-pc .checkout-layout {
+    display: block;
+  }
+}
+

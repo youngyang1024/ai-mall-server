@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aimall.toc.mapper.ServiceIssueMapper">
+
+    <resultMap id="BaseResultMap" type="com.aimall.common.entity.ServiceIssue">
+        <id column="id" property="id"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="sort" property="sort"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="selectEnabledList" resultMap="BaseResultMap">
+        SELECT * FROM t_service_issue
+        WHERE status = 1
+        ORDER BY category_id ASC, sort ASC, id ASC
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM t_service_issue
+        WHERE id = #{id}
+        LIMIT 1
+    </select>
+</mapper>

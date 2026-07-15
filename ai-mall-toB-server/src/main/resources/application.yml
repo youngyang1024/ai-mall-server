@@ -1,0 +1,39 @@
+spring:
+  jmx:
+    enabled: false
+  servlet:
+    multipart:
+      max-file-size: 60MB
+      max-request-size: 60MB
+  application:
+    name: ai-mall-toB-server
+  profiles:
+    active: dev
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+server:
+  port: 8081
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+
+jwt:
+  secret: ai-mall-jwt-secret-key-2026
+  expiration: 604800000
+
+aws:
+  s3:
+    accessKeyId:
+    accessKeySecret:
+    regionName:
+    defaultBucket:
+    prefix:

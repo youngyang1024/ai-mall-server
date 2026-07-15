@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aimall.tob.mapper.FaqCategoryMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_faq_category(name, sort, status)
+        VALUES (#{name}, #{sort}, #{status})
+    </insert>
+
+    <update id="update">
+        UPDATE t_faq_category
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM t_faq_category WHERE id = #{id}
+    </delete>
+
+    <select id="selectById" resultType="com.aimall.common.entity.FaqCategory">
+        SELECT * FROM t_faq_category WHERE id = #{id}
+    </select>
+
+    <select id="selectList" resultType="com.aimall.common.entity.FaqCategory">
+        SELECT * FROM t_faq_category ORDER BY sort ASC, id DESC
+    </select>
+
+</mapper>
