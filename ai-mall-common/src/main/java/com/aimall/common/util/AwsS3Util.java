@@ -22,7 +22,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * AWS S3 文件存储工具
+ * AWS S3 文件存储工具类，封装文件上传、删除及公开访问 URL 拼接，仅在配置了 aws.s3.accessKeyId 时装配
+ * <p>1. 初始化：PostConstruct 阶段根据 AwsS3Properties 中的凭证与区域构建 AmazonS3 客户端
+ * <p>2. 上传：按 "前缀/yyyy/MM/dd/UUID.扩展名" 规则生成 object key，以 PublicRead 权限上传并返回公开访问 URL
+ * <p>3. 删除：兼容传入完整 URL 或 object key，先提取 key 再从默认 Bucket 删除
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Slf4j
 @Component

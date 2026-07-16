@@ -10,6 +10,12 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * 商品详情响应对象：承载SPU信息、规格维度列表、SKU列表、商品图片列表，用于商家后台商品详情/编辑页数据展示
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Data
 @ApiModel("商品详情")
 public class ProductDetailVO {

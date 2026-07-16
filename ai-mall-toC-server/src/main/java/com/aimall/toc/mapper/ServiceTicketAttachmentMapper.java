@@ -6,7 +6,10 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- * 服务工单附件 Mapper
+ * 服务工单附件表 Mapper：附件的新增及按工单查询
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Mapper
 public interface ServiceTicketAttachmentMapper {

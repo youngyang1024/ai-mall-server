@@ -18,9 +18,20 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+/**
+ * B端商品管理服务实现，负责 SPU/SKU/规格/图册四类数据的组合维护
+ * <p>1. 创建：事务内先插入 SPU 主信息，再依次写入规格维度（SpuSpec）、SKU 列表（各规格组合的价格与库存，SKU 图片空串归一化为 NULL 以便查询侧回退 SPU 主图）、商品图册（按传入顺序生成 sort）
+ * <p>2. 更新：采用"删除重建"模式，事务内先更新 SPU 主信息，然后删除该 SPU 下全部规格、SKU、图册记录，再按入参重新插入规格/SKU/图册，以整体替换代替逐条差异对比
+ * <p>3. 上下架与库存：updateStatus 单独变更 SPU 状态，updateSkuStock 直接覆盖指定 SKU 库存，均先校验记录存在
+ * <p>4. 列表基于 PageHelper 分页，详情聚合 SPU、规格、SKU、图册；依赖 SpuMapper、SkuMapper、SpuSpecMapper、SpuImageMapper
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -38,9 +49,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PageResult<Spu> list(String name, Long categoryId, Integer status, int pageNum, int pageSize) {
+    public PageResult<Spu> list(Long id, String name, Long categoryId, Integer status, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Spu> list = spuMapper.selectList(name, categoryId, status);
+        List<Spu> list = spuMapper.selectList(id, name, categoryId, status);
         PageInfo<Spu> pageInfo = new PageInfo<>(list);
         return PageResult.of(pageInfo.getList(), pageInfo.getTotal(), pageNum, pageSize);
     }
@@ -104,6 +115,15 @@ public class ProductServiceImpl implements ProductService {
         spuMapper.updateStatus(spuId, status);
     }
 
+    @Override
+    public void updateSkuStock(Long skuId, Integer stock) {
+        Sku sku = skuMapper.selectById(skuId);
+        if (sku == null) {
+            throw new BusinessException("SKU不存在");
+        }
+        skuMapper.updateStock(skuId, stock);
+    }
+
     private Spu buildSpu(ProductSaveDTO dto) {
         Spu spu = new Spu();
         spu.setName(dto.getName());
@@ -128,7 +148,8 @@ public class ProductServiceImpl implements ProductService {
             sku.setSpecJson(skuDTO.getSpecJson());
             sku.setPrice(skuDTO.getPrice());
             sku.setStock(skuDTO.getStock());
-            sku.setImage(skuDTO.getImage());
+            // 空串归一化为 NULL，SKU 无图时查询侧才能回退 SPU 主图
+            sku.setImage(StringUtils.hasText(skuDTO.getImage()) ? skuDTO.getImage() : null);
             sku.setSkuCode(skuDTO.getSkuCode());
             skuMapper.insert(sku);
         }

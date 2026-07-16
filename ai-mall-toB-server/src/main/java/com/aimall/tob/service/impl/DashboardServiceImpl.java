@@ -11,6 +11,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * B端数据看板服务实现，基于 DashboardMapper 聚合统计：今日订单数/销售额/新增用户/待发货数概览、近 7 或 30 天销售趋势、商品销量 Top10 排行、订单状态分布（附状态描述）
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class DashboardServiceImpl implements DashboardService {
 

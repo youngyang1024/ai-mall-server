@@ -12,6 +12,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * C端订单接口：创建订单/模拟支付/取消/确认收货/列表/详情
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "订单")
 @RestController
 @RequestMapping("/api/order")

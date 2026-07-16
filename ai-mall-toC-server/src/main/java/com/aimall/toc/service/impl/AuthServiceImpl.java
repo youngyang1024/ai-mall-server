@@ -17,6 +17,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * C端用户认证服务，负责注册、登录与登出
+ *
+ * <p>1. 注册：校验用户名唯一，密码经 BCrypt 加密后落库，注册即生效（无需邮箱验证），昵称缺省取用户名
+ * <p>2. 登录：BCrypt 校验密码，拦截禁用账号（status 为 0 拒绝登录），签发携带用户 ID/用户类型/用户名的 JWT，并以 C端用户维度写入 Redis（TTL 与 JWT 过期时间一致），实现单端有效与服务端可控失效
+ * <p>3. 登出：删除 Redis 中该用户的 Token 记录，使 Token 立即失效
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class AuthServiceImpl implements AuthService {
 

@@ -23,6 +23,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * B端退款审核服务实现，退款单状态机流转（待审核 -> 已通过/已拒绝）
+ * <p>1. 审核通过：以条件更新（WHERE status = 待审核）将退款单置为已通过，再将订单从退款中置为已退款，最后查询订单全部 OrderItem 明细，逐条按购买数量回滚对应 SKU 库存（stock = stock + quantity）
+ * <p>2. 审核拒绝：以条件更新写入拒绝原因并将退款单置为已拒绝，同时依据退款单上快照的 orderStatusBefore，将订单从退款中恢复为申请退款前的状态
+ * <p>3. 两个审核操作均在事务内执行（rollbackFor = Exception.class），任一条件更新影响行数为 0 即视为状态已变更或并发冲突，抛出 BusinessException 整体回滚
+ * <p>4. 列表/详情基于 PageHelper 分页，组装 VO 时回查订单补充订单号；依赖 RefundMapper、OrderMapper、OrderItemMapper、SkuMapper
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class RefundServiceImpl implements RefundService {
 

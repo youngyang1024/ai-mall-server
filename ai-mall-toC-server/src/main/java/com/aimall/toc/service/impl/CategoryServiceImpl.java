@@ -11,6 +11,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * C端商品分类服务实现：查询已启用分类并按 parentId 递归构建父子层级分类树
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class CategoryServiceImpl implements CategoryService {
 

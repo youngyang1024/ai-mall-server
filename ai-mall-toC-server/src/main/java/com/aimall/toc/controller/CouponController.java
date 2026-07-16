@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * C端优惠券接口：可领取列表/领取/我的优惠券/结算可用优惠券
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "优惠券")
 @RestController
 @RequestMapping("/api/coupon")

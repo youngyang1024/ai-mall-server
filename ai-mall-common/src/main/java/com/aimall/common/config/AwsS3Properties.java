@@ -6,7 +6,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * AWS S3 配置属性
+ * AWS S3 配置属性类，绑定 aws.s3 前缀的配置项（accessKeyId、accessKeySecret、regionName、defaultBucket、prefix），仅在配置了 accessKeyId 时生效
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Data
 @Component

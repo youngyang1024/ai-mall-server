@@ -12,6 +12,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * B端商品分类管理服务实现，基于 CategoryMapper 维护分类；tree 将全量分类按 parentId 分组后递归组装成树，delete 前校验无子分类且分类下无 SPU 商品，新增时 sort 默认 0、status 默认启用
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class CategoryServiceImpl implements CategoryService {
 

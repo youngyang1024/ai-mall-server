@@ -16,10 +16,17 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * C端商品服务实现：在架商品分页列表/关键词搜索（支持价格区间过滤与白名单排序防 SQL 注入）、商品详情聚合（SPU/SKU/图片/规格）、多策略推荐（热销、相似商品、看了又看、买了又买，均以热销兜底）
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -40,19 +47,41 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PageResult<Spu> list(Long categoryId, int pageNum, int pageSize) {
+    public PageResult<Spu> list(Long categoryId, String sortBy, BigDecimal minPrice, BigDecimal maxPrice, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Spu> list = spuMapper.selectOnShelfList(null, categoryId);
+        List<Spu> list = spuMapper.selectOnShelfList(null, categoryId, resolveOrderBy(sortBy), minPrice, maxPrice);
         PageInfo<Spu> pageInfo = new PageInfo<>(list);
         return PageResult.of(pageInfo.getList(), pageInfo.getTotal(), pageNum, pageSize);
     }
 
     @Override
-    public PageResult<Spu> search(String keyword, int pageNum, int pageSize) {
+    public PageResult<Spu> search(String keyword, String sortBy, BigDecimal minPrice, BigDecimal maxPrice, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Spu> list = spuMapper.selectOnShelfList(keyword, null);
+        List<Spu> list = spuMapper.selectOnShelfList(keyword, null, resolveOrderBy(sortBy), minPrice, maxPrice);
         PageInfo<Spu> pageInfo = new PageInfo<>(list);
         return PageResult.of(pageInfo.getList(), pageInfo.getTotal(), pageNum, pageSize);
+    }
+
+    /**
+     * 排序白名单：用户输入仅用于 switch 匹配，传给 mapper 的是固定枚举常量，
+     * XML 中用 <choose> 按值选择固定 ORDER BY 片段，杜绝 SQL 注入。
+     */
+    private String resolveOrderBy(String sortBy) {
+        if (sortBy == null) {
+            return "default";
+        }
+        switch (sortBy) {
+            case "price_asc":
+                return "price_asc";
+            case "price_desc":
+                return "price_desc";
+            case "sales":
+                return "sales";
+            case "newest":
+                return "newest";
+            default:
+                return "default";
+        }
     }
 
     @Override

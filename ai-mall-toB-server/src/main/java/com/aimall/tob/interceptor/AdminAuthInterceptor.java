@@ -18,7 +18,14 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
- * B端 JWT 认证拦截器
+ * B端 JWT 认证拦截器：拦截 /admin/** 请求（登录、健康检查等白名单除外），校验管理员登录态并维护 UserContext
+ * <p>1. 从请求头 Authorization 中解析 Bearer token，token 缺失时返回未登录响应并拒绝放行
+ * <p>2. 使用 JwtUtil 解析 token 得到 Claims，校验是否过期，并校验用户类型必须为 B端（USER_TYPE_B），否则返回无权限
+ * <p>3. 从 Claims 中取出管理员 id，读取 Redis 中缓存的登录态 token 与请求 token 比对，不一致（已登出或已被新登录顶掉）则按未登录拒绝
+ * <p>4. 校验通过后将管理员 id、用户名、用户类型写入 UserContext 并放行；解析过程中任一异常均按未登录处理，afterCompletion 中清理 UserContext 防止线程复用泄漏
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Component
 public class AdminAuthInterceptor implements HandlerInterceptor {

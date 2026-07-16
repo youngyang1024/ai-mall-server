@@ -10,28 +10,54 @@
         <div class="cart-layout">
           <div class="cart-main">
             <div class="cart-header" v-if="!isMobile">
-              <div class="col-product">商品</div>
+              <div class="col-product select-all-wrap">
+                <van-checkbox
+                  :value="isAllChecked"
+                  checked-color="var(--color-primary)"
+                  :disabled="!validList.length"
+                  @click.native.prevent="toggleCheckAll"
+                >
+                  全选
+                </van-checkbox>
+                <span class="col-label">商品</span>
+              </div>
               <div class="col-quantity">数量</div>
               <div class="col-total">小计</div>
             </div>
 
-            <div v-for="item in list" :key="item.id" class="cart-item">
+            <div class="mobile-select-all" v-else>
+              <van-checkbox
+                :value="isAllChecked"
+                checked-color="var(--color-primary)"
+                :disabled="!validList.length"
+                @click.native.prevent="toggleCheckAll"
+              >
+                全选
+              </van-checkbox>
+            </div>
+
+            <div v-for="item in list" :key="item.id" class="cart-item" :class="{ 'is-invalid': item.spuStatus === 0 }">
               <div class="item-checkbox">
-                <van-checkbox v-model="item.checked" :name="item.id" checked-color="var(--color-primary)" @change="onCheckChange(item)" />
+                <van-checkbox v-model="item.checked" :name="item.id" checked-color="var(--color-primary)" :disabled="item.spuStatus === 0" @change="onCheckChange(item)" />
               </div>
               <div class="item-product">
                 <img :src="item.image" :alt="item.spuName" class="item-image" @click="goToProduct(item.spuId)" />
                 <div class="item-info">
-                  <div class="item-title" @click="goToProduct(item.spuId)">{{ item.spuName }}</div>
-                  
+                  <div class="item-title" @click="goToProduct(item.spuId)">
+                    {{ item.spuName }}
+                    <span class="invalid-tag" v-if="item.spuStatus === 0">已下架</span>
+                  </div>
+
                   <!-- Homary style spec block -->
-                  <div class="item-spec-box" @click="openSpecSelector(item)">
+                  <div class="item-spec-box" :class="{ disabled: item.spuStatus === 0 }" @click="item.spuStatus !== 0 && openSpecSelector(item)">
                     <div class="item-spec-text" v-if="item.skuSpec">{{ formatSpec(item.skuSpec) }}</div>
                     <div class="item-price-box">
                       <span class="price-current">¥{{ item.price }}</span>
                       <span class="price-original">¥{{ (item.price * 1.2).toFixed(2) }}</span>
                     </div>
                   </div>
+
+                  <div class="invalid-tips" v-if="item.spuStatus === 0">该商品已下架，无法结算</div>
 
                   <div class="item-actions">
                     <button class="item-action-btn" @click="removeItem(item)"><van-icon name="cross" /> 移除</button>
@@ -40,7 +66,7 @@
                 </div>
               </div>
               <div class="item-quantity" v-if="!isMobile">
-                <van-stepper v-model="item.quantity" min="1" :max="item.stock" disable-input @change="qty => onQtyChange(item, qty)" />
+                <van-stepper v-model="item.quantity" min="1" :max="item.stock" disable-input :disabled="item.spuStatus === 0" @change="qty => onQtyChange(item, qty)" />
               </div>
               <div class="item-total" v-if="!isMobile">
                 ¥{{ (item.price * item.quantity).toFixed(2) }}
@@ -109,7 +135,7 @@
 </template>
 
 <script>
-import { getCartList, updateCart, deleteCartItem } from '@/api/cart'
+import { getCartList, updateCart, deleteCartItem, checkAllCart } from '@/api/cart'
 import { getProductDetail } from '@/api/product'
 
 export default {
@@ -126,11 +152,18 @@ export default {
     }
   },
   computed: {
+    // 有效商品（未下架）
+    validList() {
+      return this.list.filter(i => i.spuStatus !== 0)
+    },
+    isAllChecked() {
+      return this.validList.length > 0 && this.validList.every(i => i.checked)
+    },
     checkedIds() {
-      return this.list.filter(i => i.checked).map(i => i.id)
+      return this.validList.filter(i => i.checked).map(i => i.id)
     },
     totalPrice() {
-      return this.list
+      return this.validList
         .filter(item => item.checked)
         .reduce((sum, item) => sum + Number(item.price) * item.quantity, 0)
     },
@@ -187,6 +220,13 @@ export default {
     },
     async onCheckChange(item) {
       await updateCart({ id: item.id, quantity: item.quantity, checked: item.checked ? 1 : 0 })
+    },
+    // 后端全选会把失效商品也置 checked，前端总价/结算只统计有效已选项
+    async toggleCheckAll() {
+      if (!this.validList.length) return
+      const target = this.isAllChecked ? 0 : 1
+      await checkAllCart(target)
+      await this.loadData()
     },
     async removeItem(item) {
       await deleteCartItem(item.id)
@@ -282,6 +322,70 @@ export default {
   align-items: center;
   padding: 24px 0;
   border-bottom: 1px solid var(--color-border);
+}
+
+/* 失效（已下架）商品 */
+.cart-item.is-invalid .item-image,
+.cart-item.is-invalid .item-title,
+.cart-item.is-invalid .item-spec-box,
+.cart-item.is-invalid .item-quantity,
+.cart-item.is-invalid .item-total {
+  opacity: 0.5;
+  filter: grayscale(0.8);
+}
+
+.cart-item.is-invalid .item-image,
+.cart-item.is-invalid .item-title {
+  cursor: default;
+}
+
+.invalid-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 400;
+  color: #ee0a24;
+  border: 1px solid #ee0a24;
+  border-radius: 2px;
+  padding: 1px 6px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.invalid-tips {
+  font-size: 12px;
+  color: #ee0a24;
+  margin-bottom: 12px;
+}
+
+.item-spec-box.disabled {
+  cursor: not-allowed;
+}
+
+.item-spec-box.disabled:hover {
+  border-color: var(--color-border);
+}
+
+/* 全选 */
+.select-all-wrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  grid-column: 1 / 3;
+}
+
+.select-all-wrap ::v-deep .van-checkbox__label {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.mobile-select-all {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mobile-select-all ::v-deep .van-checkbox__label {
+  font-size: 13px;
+  color: var(--color-text-main);
 }
 
 .item-checkbox {

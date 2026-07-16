@@ -15,6 +15,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * C端购物车服务，提供购物车列表、加购、修改数量/规格、勾选、删除与清空能力
+ *
+ * <p>1. 加购：校验 SKU 存在、所属商品在架且库存充足，购物车已有同 SKU 时合并累加数量（累加后仍需不超过库存），否则新增记录
+ * <p>2. 更换规格：修改购物车项 SKU 时，若目标 SKU 已存在于购物车则合并数量并删除原记录，合并前再次校验目标规格库存
+ * <p>3. 所有变更操作均校验购物车项归属当前用户，防止越权操作
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class CartServiceImpl implements CartService {
 
@@ -101,6 +111,14 @@ public class CartServiceImpl implements CartService {
             cart.setChecked(dto.getChecked());
         }
         cartMapper.update(cart);
+    }
+
+    @Override
+    public void checkAll(Long userId, Integer checked) {
+        if (checked == null || (checked != 0 && checked != 1)) {
+            throw new BusinessException("checked 参数只能为 0 或 1");
+        }
+        cartMapper.updateCheckedByUserId(userId, checked);
     }
 
     @Override

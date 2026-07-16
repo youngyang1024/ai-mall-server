@@ -29,7 +29,7 @@
     <select id="selectByUserId" resultMap="CartItemVOResultMap">
         SELECT c.id, c.sku_id, c.quantity, c.checked,
                s.spu_id, s.spec_json AS sku_spec, s.price, s.stock,
-               IFNULL(s.image, sp.main_image) AS image,
+               COALESCE(NULLIF(s.image, ''), sp.main_image) AS image,
                sp.name AS spu_name, sp.status AS spu_status
         FROM t_cart c
         INNER JOIN t_sku s ON c.sku_id = s.id
@@ -53,6 +53,10 @@
 
     <update id="update">
         UPDATE t_cart SET sku_id = #{skuId}, quantity = #{quantity}, checked = #{checked} WHERE id = #{id}
+    </update>
+
+    <update id="updateCheckedByUserId">
+        UPDATE t_cart SET checked = #{checked} WHERE user_id = #{userId}
     </update>
 
     <delete id="deleteById">

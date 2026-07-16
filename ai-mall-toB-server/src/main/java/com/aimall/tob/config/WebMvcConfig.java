@@ -13,7 +13,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Web MVC 配置
+ * Web MVC 配置：注册 BCryptPasswordEncoder Bean、String 转 LocalDateTime 参数转换器、AdminAuthInterceptor 认证拦截器（拦截 /admin/**，放行登录、健康检查、接口文档等白名单路径）以及全局 CORS 跨域规则
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {

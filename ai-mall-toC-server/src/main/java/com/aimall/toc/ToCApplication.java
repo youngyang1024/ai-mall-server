@@ -8,7 +8,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * C端商城服务启动类
+ * AI Mall C端商城服务启动类（ai-mall-toC-server，端口 9091）
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @SpringBootApplication(scanBasePackages = "com.aimall")
 @MapperScan("com.aimall.toc.mapper")

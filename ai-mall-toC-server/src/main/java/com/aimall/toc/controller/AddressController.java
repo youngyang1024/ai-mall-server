@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * C端收货地址接口：地址列表/新增/修改/删除/设为默认地址
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "收货地址")
 @RestController
 @RequestMapping("/api/address")

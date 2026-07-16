@@ -19,3 +19,7 @@ export function updateProduct(spuId, data) {
 export function updateProductStatus(spuId, status) {
   return request({ url: `/admin/product/${spuId}/status`, method: 'put', params: { status } })
 }
+
+export function updateSkuStock(skuId, stock) {
+  return request({ url: `/admin/product/sku/${skuId}/stock`, method: 'put', data: { stock } })
+}

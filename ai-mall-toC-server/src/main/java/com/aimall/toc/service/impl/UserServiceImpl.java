@@ -11,6 +11,12 @@ import com.aimall.toc.vo.UserInfoVO;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * C端用户服务实现：用户信息查询与修改、修改密码（BCrypt 校验原密码后加密更新）
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class UserServiceImpl implements UserService {
 

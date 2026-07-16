@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aimall.tob.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.aimall.common.entity.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="nickname" property="nickname"/>
+        <result column="phone" property="phone"/>
+        <result column="avatar" property="avatar"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 不查询 password 列 -->
+    <sql id="Base_Column_List">
+        id, username, nickname, phone, avatar, status, create_time, update_time
+    </sql>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM t_user
+        <where>
+            <if test="username != null and username != ''">
+                AND username LIKE CONCAT('%', #{username}, '%')
+            </if>
+            <if test="phone != null and phone != ''">
+                AND phone LIKE CONCAT('%', #{phone}, '%')
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM t_user WHERE id = #{id} LIMIT 1
+    </select>
+
+    <update id="updateStatus">
+        UPDATE t_user SET status = #{status} WHERE id = #{id}
+    </update>
+
+    <select id="countOrder" resultType="long">
+        SELECT COUNT(*) FROM t_order WHERE user_id = #{userId}
+    </select>
+
+    <!-- 消费总额：已支付口径（待发货/已发货/已完成） -->
+    <select id="sumPayAmount" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(pay_amount), 0) FROM t_order
+        WHERE user_id = #{userId} AND status IN (1, 2, 3)
+    </select>
+
+    <select id="countRefund" resultType="long">
+        SELECT COUNT(*) FROM t_refund WHERE user_id = #{userId}
+    </select>
+
+    <select id="countServiceTicket" resultType="long">
+        SELECT COUNT(*) FROM t_service_ticket WHERE user_id = #{userId}
+    </select>
+</mapper>

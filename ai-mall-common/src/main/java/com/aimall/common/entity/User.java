@@ -5,7 +5,10 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * C端用户
+ * C端用户实体，对应表 t_user，记录商城注册用户的账号、密码、昵称、手机号、头像及启用状态
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Data
 public class User {

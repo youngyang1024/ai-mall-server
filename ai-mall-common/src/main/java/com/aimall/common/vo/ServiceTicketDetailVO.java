@@ -6,7 +6,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * 服务工单详情展示对象
+ * 服务工单详情展示对象，包含工单完整信息、状态描述、联系人信息及回复列表（含各回复的附件）
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Data
 public class ServiceTicketDetailVO {

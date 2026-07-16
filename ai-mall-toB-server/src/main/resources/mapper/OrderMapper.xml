@@ -30,6 +30,16 @@
             <if test="status != null">
                 AND status = #{status}
             </if>
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
+            <!-- 前端 el-date-picker 传完整 datetime（起日 00:00:00 / 止日 23:59:59） -->
+            <if test="startTime != null and startTime != ''">
+                AND create_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND create_time &lt;= #{endTime}
+            </if>
         </where>
         ORDER BY id DESC
     </select>

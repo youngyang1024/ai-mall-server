@@ -6,6 +6,12 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * 用户登录请求 DTO：用户名及密码
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Data
 @ApiModel("用户登录请求")
 public class LoginDTO {

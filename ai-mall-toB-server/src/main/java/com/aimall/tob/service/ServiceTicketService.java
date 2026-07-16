@@ -6,7 +6,10 @@ import com.aimall.common.vo.ServiceTicketListVO;
 import com.aimall.tob.dto.ServiceTicketAdminReplyDTO;
 
 /**
- * B端服务工单 Service
+ * B端服务工单业务接口：定义工单分页查询（支持按状态、工单号、订单号筛选）、详情查询、管理员回复、状态变更能力
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 public interface ServiceTicketService {
 

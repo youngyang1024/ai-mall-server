@@ -4,12 +4,21 @@ import com.aimall.common.entity.Spu;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * SPU 表 Mapper：在架商品的条件检索与详情查询、热销/推荐类查询及销量累加
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Mapper
 public interface SpuMapper {
 
-    List<Spu> selectOnShelfList(@Param("name") String name, @Param("categoryId") Long categoryId);
+    List<Spu> selectOnShelfList(@Param("name") String name, @Param("categoryId") Long categoryId,
+                                @Param("orderBy") String orderBy,
+                                @Param("minPrice") BigDecimal minPrice, @Param("maxPrice") BigDecimal maxPrice);
 
     Spu selectOnShelfById(@Param("id") Long id);
 

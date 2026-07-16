@@ -1,7 +1,10 @@
 package com.aimall.common.constant;
 
 /**
- * 用户优惠券状态
+ * 用户优惠券状态枚举，定义用户已领取优惠券的使用状态（未使用、已使用、已过期）
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 public enum UserCouponStatus {
 

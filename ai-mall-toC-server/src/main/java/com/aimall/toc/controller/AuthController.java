@@ -11,6 +11,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * C端用户认证接口：注册/登录/登出
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "用户认证")
 @RestController
 @RequestMapping("/api/auth")

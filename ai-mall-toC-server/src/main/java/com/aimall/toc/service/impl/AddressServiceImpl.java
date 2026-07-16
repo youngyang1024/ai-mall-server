@@ -10,6 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * C端收货地址服务实现：地址增删改查、默认地址维护（设默认前先清除该用户其他默认地址），操作前校验地址归属防止越权
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class AddressServiceImpl implements AddressService {
 

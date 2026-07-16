@@ -56,11 +56,18 @@
                 <img :src="item.image" :alt="item.spuName" class="item-img" />
                 <div class="item-info">
                   <div class="item-name">{{ item.spuName }}</div>
-                  <div class="item-spec" v-if="item.skuSpec">{{ item.skuSpec }}</div>
+                  <div class="item-spec" v-if="item.skuSpec">{{ formatSpec(item.skuSpec) }}</div>
                   <div class="item-price-qty">
                     <span class="price">¥{{ item.price }}</span>
                     <span class="qty">x {{ item.quantity }}</span>
                   </div>
+                  <button
+                    v-if="order.status === 3"
+                    class="shopify-btn shopify-btn--outline item-review-btn"
+                    @click="goReview"
+                  >
+                    评价
+                  </button>
                 </div>
                 <div class="item-total">
                   ¥{{ (item.price * item.quantity).toFixed(2) }}
@@ -154,6 +161,15 @@ export default {
     this.order = res.data
   },
   methods: {
+    formatSpec(specJsonStr) {
+      if (!specJsonStr) return ''
+      try {
+        const obj = JSON.parse(specJsonStr)
+        return Object.entries(obj).map(([k, v]) => `${k}: ${v}`).join(' | ')
+      } catch (e) {
+        return specJsonStr
+      }
+    },
     formatTime(timeStr) {
       if (!timeStr) return ''
       return timeStr.replace('T', ' ')
@@ -168,6 +184,9 @@ export default {
     },
     goPay() {
       this.$router.push({ path: '/order/pay', query: { orderNo: this.order.orderNo } })
+    },
+    goReview() {
+      this.$router.push('/user/review')
     },
     async handleCancel() {
       await this.$dialog.confirm({ title: '确认取消订单？' })
@@ -364,6 +383,13 @@ export default {
 .item-price-qty .qty {
   color: var(--color-text-muted);
   margin-left: 8px;
+}
+.item-review-btn {
+  margin-top: 8px;
+  padding: 4px 12px;
+  font-size: 12px;
+  text-transform: none;
+  letter-spacing: 0;
 }
 .item-total {
   font-weight: 600;

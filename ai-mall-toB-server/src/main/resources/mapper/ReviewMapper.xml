@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aimall.tob.mapper.ReviewMapper">
+
+    <resultMap id="BaseResultMap" type="com.aimall.common.entity.ProductReview">
+        <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="order_item_id" property="orderItemId"/>
+        <result column="spu_id" property="spuId"/>
+        <result column="sku_id" property="skuId"/>
+        <result column="user_id" property="userId"/>
+        <result column="rating" property="rating"/>
+        <result column="content" property="content"/>
+        <result column="images" property="images"/>
+        <result column="sku_spec" property="skuSpec"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="RowResultMap" type="com.aimall.tob.vo.ReviewRowVO" extends="BaseResultMap">
+        <result column="spu_name" property="spuName"/>
+        <result column="username" property="username"/>
+        <result column="nickname" property="nickname"/>
+        <result column="avatar" property="avatar"/>
+    </resultMap>
+
+    <select id="selectList" resultMap="RowResultMap">
+        SELECT r.*, s.name AS spu_name, u.username, u.nickname, u.avatar
+        FROM t_product_review r
+        LEFT JOIN t_spu s ON s.id = r.spu_id
+        LEFT JOIN t_user u ON u.id = r.user_id
+        <where>
+            <if test="spuId != null">
+                AND r.spu_id = #{spuId}
+            </if>
+            <if test="rating != null">
+                AND r.rating = #{rating}
+            </if>
+            <if test="status != null">
+                AND r.status = #{status}
+            </if>
+        </where>
+        ORDER BY r.id DESC
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM t_product_review WHERE id = #{id} LIMIT 1
+    </select>
+
+    <update id="updateStatus">
+        UPDATE t_product_review SET status = #{status} WHERE id = #{id}
+    </update>
+</mapper>

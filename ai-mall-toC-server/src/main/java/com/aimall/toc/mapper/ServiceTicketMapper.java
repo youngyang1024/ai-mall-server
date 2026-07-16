@@ -7,7 +7,10 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * 服务工单主表 Mapper
+ * 服务工单主表 Mapper：工单的创建、按用户/工单号查询及状态与最后回复方更新
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Mapper
 public interface ServiceTicketMapper {

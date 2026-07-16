@@ -6,6 +6,12 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * SKU 表 Mapper：SKU 查询，及库存的原子扣减（防超卖）与回补
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Mapper
 public interface SkuMapper {
 

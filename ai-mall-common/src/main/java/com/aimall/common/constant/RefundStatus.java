@@ -1,7 +1,10 @@
 package com.aimall.common.constant;
 
 /**
- * 退款申请状态
+ * 退款申请状态枚举，定义退款审核流程的状态（待审核、已通过、已拒绝）
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 public enum RefundStatus {
 

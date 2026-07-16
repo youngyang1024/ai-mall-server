@@ -40,7 +40,14 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * C端服务工单实现
+ * C端服务工单实现：工单分类/问题选项查询、工单创建、我的工单列表与详情、用户回复、用户完结
+ *
+ * <p>1. 创建：校验分类与问题有效性及归属关系、按分类要求校验订单号，生成工单号后落库，并保存首条回复与附件（事务）
+ * <p>2. 回复：校验工单归属且未完结，追加回复与附件，同时将工单状态重置为待处理并更新最后回复方（事务）
+ * <p>3. 完结：校验工单归属后将状态置为已完成；详情按回复维度聚合附件返回
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Service
 public class ServiceTicketServiceImpl implements ServiceTicketService {

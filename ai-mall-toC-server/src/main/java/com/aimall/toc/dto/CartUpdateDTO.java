@@ -6,6 +6,12 @@ import lombok.Data;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+/**
+ * 更新购物车项请求 DTO：数量、勾选状态及换选 SKU
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Data
 @ApiModel("更新购物车")
 public class CartUpdateDTO {

@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 管理员认证接口
+ * 管理员认证接口：B端管理员登录/登出
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Api(tags = "管理员认证")
 @RestController

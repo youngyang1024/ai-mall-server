@@ -6,6 +6,12 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * 创建订单请求 DTO：收货地址、结算购物车项、用户优惠券及订单备注
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Data
 @ApiModel("创建订单")
 public class OrderCreateDTO {

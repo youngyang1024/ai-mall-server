@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * C端热门搜索接口：查询启用的热门搜索词列表
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "热门搜索接口")
 @RestController
 @RequestMapping("/api/hot-search")

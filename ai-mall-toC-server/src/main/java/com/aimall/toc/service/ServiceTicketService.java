@@ -10,7 +10,10 @@ import com.aimall.toc.dto.ServiceTicketReplyDTO;
 import java.util.List;
 
 /**
- * C端服务工单 Service
+ * C端服务工单服务接口：工单分类选项/创建工单/我的工单列表/工单详情/回复/完结
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 public interface ServiceTicketService {
 

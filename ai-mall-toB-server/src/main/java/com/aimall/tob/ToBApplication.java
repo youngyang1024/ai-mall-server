@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
- * B端管理服务启动类
+ * B端管理服务启动类：启动 Spring Boot 应用（扫描 com.aimall 包并注册 MyBatis Mapper），记录启动耗时，并注册 shutdown 钩子在应用退出时关闭 Spring 容器
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @SpringBootApplication(scanBasePackages = "com.aimall")
 @MapperScan("com.aimall.tob.mapper")

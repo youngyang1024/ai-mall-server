@@ -1,7 +1,10 @@
 package com.aimall.common.constant;
 
 /**
- * 服务工单状态
+ * 服务工单状态枚举，定义工单处理流程的状态（待处理、处理中、已完成），并提供根据 code 获取状态描述的方法
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 public enum ServiceTicketStatus {
 

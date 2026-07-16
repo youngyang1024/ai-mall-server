@@ -15,7 +15,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Jackson 全局配置，支持 Java 8 日期时间类型序列化
+ * Jackson 全局序列化配置类，注册 JavaTimeModule 支持 Java 8 日期时间类型，统一 LocalDateTime 序列化格式为 yyyy-MM-dd HH:mm:ss，并关闭时间戳输出与未知属性反序列化报错
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Configuration
 public class JacksonConfig {

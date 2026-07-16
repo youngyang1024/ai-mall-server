@@ -10,8 +10,21 @@
             <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
+        <el-form-item label="用户ID">
+          <el-input v-model="query.userId" placeholder="用户ID" clearable @input="query.userId = query.userId.replace(/\D/g, '')" />
+        </el-form-item>
+        <el-form-item label="下单时间">
+          <el-date-picker
+            v-model="query.dateRange"
+            type="daterange"
+            value-format="yyyy-MM-dd"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+          />
+        </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="loadData">查询</el-button>
+          <el-button type="primary" @click="handleSearch">查询</el-button>
         </el-form-item>
       </el-form>
 
@@ -47,7 +60,9 @@
         <p v-if="detail.logisticsNo"><b>物流单号：</b>{{ detail.logisticsNo }}</p>
         <el-table :data="detail.items" border size="small" style="margin-top:12px">
           <el-table-column prop="spuName" label="商品" />
-          <el-table-column prop="skuSpec" label="规格" />
+          <el-table-column label="规格">
+            <template slot-scope="{ row }">{{ formatSpec(row.skuSpec) }}</template>
+          </el-table-column>
           <el-table-column prop="price" label="单价" width="90" />
           <el-table-column prop="quantity" label="数量" width="70" />
         </el-table>
@@ -75,7 +90,7 @@ export default {
   name: 'OrderList',
   data() {
     return {
-      query: { orderNo: '', status: null },
+      query: { orderNo: '', status: null, userId: '', dateRange: null },
       list: [],
       loading: false,
       pageNum: 1,
@@ -109,12 +124,25 @@ export default {
     this.loadData()
   },
   methods: {
+    formatSpec(specJsonStr) {
+      if (!specJsonStr) return ''
+      try {
+        const obj = JSON.parse(specJsonStr)
+        return Object.entries(obj).map(([k, v]) => `${k}: ${v}`).join(' | ')
+      } catch (e) {
+        return specJsonStr
+      }
+    },
     async loadData() {
       this.loading = true
       try {
+        const [startDate, endDate] = this.query.dateRange || []
         const res = await getOrderList({
           orderNo: this.query.orderNo || undefined,
           status: this.query.status,
+          userId: this.query.userId || undefined,
+          startTime: startDate ? `${startDate} 00:00:00` : undefined,
+          endTime: endDate ? `${endDate} 23:59:59` : undefined,
           pageNum: this.pageNum,
           pageSize: this.pageSize
         })
@@ -123,6 +151,10 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    handleSearch() {
+      this.pageNum = 1
+      this.loadData()
     },
     handlePageChange(page) {
       this.pageNum = page

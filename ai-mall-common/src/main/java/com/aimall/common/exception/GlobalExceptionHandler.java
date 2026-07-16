@@ -14,7 +14,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.Objects;
 
 /**
- * 全局异常处理
+ * 全局异常处理器，基于 RestControllerAdvice 统一捕获各类异常并转换为标准 Result 响应
+ * <p>1. BusinessException：业务异常，透传其错误码与提示信息
+ * <p>2. MethodArgumentNotValidException / BindException：参数校验和绑定失败，提取首个字段错误信息返回
+ * <p>3. MissingServletRequestParameterException：缺少必填请求参数，提示具体参数名
+ * <p>4. HttpMessageNotReadableException：请求体格式解析失败
+ * <p>5. Exception：其余未知异常兜底，记录 error 日志并返回统一的服务器内部错误
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Slf4j
 @RestControllerAdvice

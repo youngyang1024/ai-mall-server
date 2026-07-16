@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * B端商品分类管理接口：分类树查询/新增/修改/删除
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "分类管理")
 @RestController
 @RequestMapping("/admin/category")

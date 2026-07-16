@@ -7,7 +7,10 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 /**
- * 管理员登录请求
+ * 管理员登录请求参数：承载用户名、密码字段，用于商家后台登录认证
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Data
 @ApiModel("管理员登录请求")

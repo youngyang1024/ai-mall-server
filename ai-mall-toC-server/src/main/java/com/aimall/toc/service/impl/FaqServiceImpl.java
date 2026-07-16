@@ -10,6 +10,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * C端 FAQ 帮助中心服务实现：FAQ 分类列表查询、按分类和关键词检索已启用的 FAQ 文章
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class FaqServiceImpl implements FaqService {
 

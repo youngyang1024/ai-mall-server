@@ -11,7 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * JWT 工具类
+ * JWT 工具类，负责登录 Token 的生成与解析，密钥和过期时间通过 jwt.secret、jwt.expiration 配置注入
+ * <p>1. 生成：以 userId 为 subject，将 userId、userType（c/b）、username 写入 claims，使用 HS256 算法签名
+ * <p>2. 解析：校验签名并返回 Claims，供拦截器提取用户信息写入 UserContext
+ * <p>3. 提供从 Claims 中获取 userId、userType、username 及判断 Token 是否过期的便捷方法
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Component
 public class JwtUtil {

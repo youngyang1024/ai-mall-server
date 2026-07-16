@@ -21,6 +21,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * B端订单管理服务实现
+ * <p>1. 列表/详情：基于 PageHelper 按订单号/状态/用户/下单时间区间分页查询，详情按订单聚合 OrderItem 商品明细
+ * <p>2. 发货：先校验订单存在且当前为已支付（待发货）状态，事务内以条件更新（WHERE status = 待发货）写入物流单号与发货时间并将状态流转为已发货
+ * <p>3. 条件更新影响行数为 0 即视为状态已变更或并发冲突，抛出 BusinessException 回滚
+ * <p>4. 依赖 OrderMapper、OrderItemMapper
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -33,9 +43,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PageResult<OrderDetailVO> list(String orderNo, Integer status, int pageNum, int pageSize) {
+    public PageResult<OrderDetailVO> list(String orderNo, Integer status, Long userId,
+                                          String startTime, String endTime, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Order> orders = orderMapper.selectList(orderNo, status);
+        List<Order> orders = orderMapper.selectList(orderNo, status, userId, startTime, endTime);
         PageInfo<Order> pageInfo = new PageInfo<>(orders);
         List<OrderDetailVO> list = orders.stream().map(this::toSummaryVO).collect(Collectors.toList());
         return PageResult.of(list, pageInfo.getTotal(), pageNum, pageSize);

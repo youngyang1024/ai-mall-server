@@ -6,7 +6,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 订单
+ * 订单实体，对应表 t_order，记录订单金额（总额/优惠/实付）、状态、收货信息快照、物流单号及各节点时间
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Data
 public class Order {

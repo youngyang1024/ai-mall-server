@@ -10,6 +10,12 @@ import lombok.Data;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * C端商品详情返回 VO：SPU 信息、商品图片、SKU 列表及规格维度
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Data
 @ApiModel("C端商品详情")
 public class ProductDetailVO {

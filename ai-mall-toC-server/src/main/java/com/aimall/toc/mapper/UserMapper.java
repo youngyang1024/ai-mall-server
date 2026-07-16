@@ -4,6 +4,12 @@ import com.aimall.common.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+/**
+ * 用户表 Mapper：用户的注册插入、按用户名/ID 查询、资料更新及密码修改
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Mapper
 public interface UserMapper {
 

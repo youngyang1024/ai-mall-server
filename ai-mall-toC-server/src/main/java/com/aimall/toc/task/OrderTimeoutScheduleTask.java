@@ -11,7 +11,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * 订单超时兜底扫描（每 5 分钟），防止 Redis 过期事件丢失
+ * 超时未支付订单定时兜底扫描任务（cron 由 order.timeout-scan-cron 配置，默认每 5 分钟）
+ *
+ * <p>1. 按 OrderProperties 配置的支付超时时长（默认 30 分钟）计算截止时间，扫描创建时间早于截止时间且仍为待支付的订单
+ * <p>2. 逐单调用 OrderService.cancelExpiredOrder 幂等取消（回滚库存）
+ * <p>3. 与 OrderTimeoutListener 构成双保险：Redis 过期事件监听为主机制（实时），本任务作为兜底，防止过期事件丢失（如服务重启期间）导致订单长期滞留待支付状态
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Component
 public class OrderTimeoutScheduleTask {

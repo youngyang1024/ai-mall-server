@@ -6,6 +6,12 @@ import lombok.Data;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+/**
+ * 加入购物车请求 DTO：SKU 及数量
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Data
 @ApiModel("加入购物车")
 public class CartAddDTO {

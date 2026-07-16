@@ -5,6 +5,12 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * 修改密码请求 DTO：原密码及新密码
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Data
 @ApiModel("修改密码请求")
 public class PasswordUpdateDTO {

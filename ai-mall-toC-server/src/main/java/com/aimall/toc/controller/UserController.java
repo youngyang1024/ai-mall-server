@@ -11,6 +11,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * C端用户中心接口：获取当前用户信息/修改个人资料/修改密码
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "用户中心")
 @RestController
 @RequestMapping("/api/user")

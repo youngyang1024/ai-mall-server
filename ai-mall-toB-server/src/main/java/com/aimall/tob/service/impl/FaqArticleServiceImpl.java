@@ -11,6 +11,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * B端FAQ文章管理服务实现，基于 FaqArticleMapper 提供按分类/标题的 PageHelper 分页查询与增删改
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class FaqArticleServiceImpl implements FaqArticleService {
 

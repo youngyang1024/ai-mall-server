@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * B端轮播图管理接口：列表/新增/修改/删除
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "轮播图管理")
 @RestController
 @RequestMapping("/admin/banner")

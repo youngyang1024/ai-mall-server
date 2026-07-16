@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aimall.toc.mapper.FavoriteMapper">
+
+    <resultMap id="BaseResultMap" type="com.aimall.common.entity.Favorite">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="spu_id" property="spuId"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <resultMap id="FavoriteItemResultMap" type="com.aimall.toc.vo.FavoriteItemVO">
+        <id column="spu_id" property="spuId"/>
+        <result column="spu_name" property="spuName"/>
+        <result column="main_image" property="mainImage"/>
+        <result column="spu_status" property="spuStatus"/>
+        <result column="min_price" property="minPrice"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_favorite (user_id, spu_id) VALUES (#{userId}, #{spuId})
+    </insert>
+
+    <delete id="deleteByUserIdAndSpuId">
+        DELETE FROM t_favorite WHERE user_id = #{userId} AND spu_id = #{spuId}
+    </delete>
+
+    <select id="selectByUserIdAndSpuId" resultMap="BaseResultMap">
+        SELECT * FROM t_favorite WHERE user_id = #{userId} AND spu_id = #{spuId} LIMIT 1
+    </select>
+
+    <select id="selectByUserId" resultMap="FavoriteItemResultMap">
+        SELECT f.spu_id, s.name AS spu_name, s.main_image, s.status AS spu_status,
+               (SELECT MIN(price) FROM t_sku WHERE spu_id = s.id) AS min_price,
+               f.create_time
+        FROM t_favorite f
+        INNER JOIN t_spu s ON f.spu_id = s.id
+        WHERE f.user_id = #{userId}
+        ORDER BY f.create_time DESC, f.id DESC
+    </select>
+
+    <select id="countByUserId" resultType="long">
+        SELECT COUNT(*) FROM t_favorite WHERE user_id = #{userId}
+    </select>
+</mapper>

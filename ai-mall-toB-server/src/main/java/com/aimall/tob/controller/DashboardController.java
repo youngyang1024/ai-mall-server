@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * B端数据看板接口：概览指标/销售趋势（按周期）/商品销量排行/订单状态分布
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "数据看板")
 @RestController
 @RequestMapping("/admin/dashboard")

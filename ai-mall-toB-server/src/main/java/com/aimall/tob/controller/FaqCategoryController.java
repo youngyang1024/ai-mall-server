@@ -9,6 +9,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * B端FAQ分类管理接口：分页列表/保存/修改/删除
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "FAQ分类管理")
 @RestController
 @RequestMapping("/admin/faq/category")

@@ -19,3 +19,7 @@ export function deleteCartItem(id) {
 export function clearCart() {
   return request({ url: '/api/cart/clear', method: 'delete' })
 }
+
+export function checkAllCart(checked) {
+  return request({ url: '/api/cart/check-all', method: 'put', params: { checked } })
+}

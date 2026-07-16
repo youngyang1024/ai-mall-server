@@ -17,6 +17,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * C端优惠券服务，提供可领券列表、领券、我的优惠券及下单可用券筛选能力
+ *
+ * <p>1. 领券前校验券模板有效（状态启用、在有效期内）且未领完；当前业务允许同一用户重复领取（重复领取校验已注释停用）
+ * <p>2. 防超发核心：通过条件自增 SQL（UPDATE 带 received_count &lt; total_count 条件）在数据库层面原子递增已领取数，受影响行数为 0 即判定已领完，避免并发领取超发
+ * <p>3. 条件自增成功后写入用户券记录；下单可用券按有效期与订单金额门槛过滤
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class CouponServiceImpl implements CouponService {
 

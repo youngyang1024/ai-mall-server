@@ -6,7 +6,10 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Redis 工具类
+ * Redis 工具类，基于 StringRedisTemplate 封装字符串类型的常用操作（set、get、delete、hasKey、getExpire）
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Component
 public class RedisUtil {

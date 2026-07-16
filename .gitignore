@@ -39,3 +39,6 @@ dist/
 ### AI Code ###
 .crush
 .cursor
+.claude
+openspec/
+scripts/

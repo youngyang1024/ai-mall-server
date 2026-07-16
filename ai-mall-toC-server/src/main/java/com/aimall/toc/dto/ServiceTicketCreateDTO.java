@@ -8,7 +8,10 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * 提交服务工单
+ * 提交服务工单请求 DTO：问题分类、关联订单、工单内容、联系人信息及附件
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Data
 public class ServiceTicketCreateDTO {

@@ -9,6 +9,8 @@ import Login from '@/views/login/index.vue'
 import Register from '@/views/register/index.vue'
 import UserCenter from '@/views/user/index.vue'
 import AddressPage from '@/views/user/address.vue'
+import UserReviewPage from '@/views/user/review.vue'
+import UserFavoritePage from '@/views/user/favorite.vue'
 import CartPage from '@/views/cart/index.vue'
 import CheckoutPage from '@/views/order/checkout.vue'
 import PayPage from '@/views/order/pay.vue'
@@ -75,6 +77,8 @@ const routes = [
     children: [
       { path: 'user', name: 'User', component: UserCenter, meta: { public: true, tabbar: true } },
       { path: 'user/address', name: 'Address', component: AddressPage },
+      { path: 'user/review', name: 'UserReview', component: UserReviewPage },
+      { path: 'user/favorite', name: 'UserFavorite', component: UserFavoritePage },
       { path: 'coupon', name: 'Coupon', component: CouponPage },
       { path: 'refund', name: 'RefundList', component: RefundListPage },
       { path: 'refund/:id', name: 'RefundDetail', component: RefundDetailPage },

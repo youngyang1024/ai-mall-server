@@ -10,6 +10,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * B端订单管理接口：列表（按订单号/状态/用户/时间范围分页查询）/详情/发货
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "订单管理")
 @RestController
 @RequestMapping("/admin/order")
@@ -25,9 +31,12 @@ public class OrderController {
     @GetMapping("/list")
     public Result<PageResult<OrderDetailVO>> list(@RequestParam(required = false) String orderNo,
                                                   @RequestParam(required = false) Integer status,
+                                                  @RequestParam(required = false) Long userId,
+                                                  @RequestParam(required = false) String startTime,
+                                                  @RequestParam(required = false) String endTime,
                                                   @RequestParam(defaultValue = "1") int pageNum,
                                                   @RequestParam(defaultValue = "10") int pageSize) {
-        return Result.success(orderService.list(orderNo, status, pageNum, pageSize));
+        return Result.success(orderService.list(orderNo, status, userId, startTime, endTime, pageNum, pageSize));
     }
 
     @ApiOperation("订单详情")

@@ -1,7 +1,10 @@
 package com.aimall.common.constant;
 
 /**
- * 订单状态枚举
+ * 订单状态枚举，定义订单从待支付到已退款的完整状态流转（待支付、待发货、已发货、已完成、已取消、退款中、已退款）
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 public enum OrderStatus {
 

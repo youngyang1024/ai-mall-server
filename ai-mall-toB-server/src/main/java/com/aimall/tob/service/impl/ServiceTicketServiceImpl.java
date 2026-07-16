@@ -31,7 +31,14 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * B端服务工单实现
+ * B端服务工单管理服务实现
+ * <p>1. 列表/详情：基于 PageHelper 按状态/工单号/订单号分页查询，详情聚合回复列表并按 replyId 分组挂载附件
+ * <p>2. 客服回复：已完成的工单禁止回复；事务内插入 ADMIN 类型回复记录、保存附件（从 URL 提取文件名与扩展名），并将工单状态置为处理中、更新最后回复方
+ * <p>3. 状态变更：仅允许待处理/处理中/已完成三个合法状态值，且校验工单存在
+ * <p>4. 依赖 ServiceTicketMapper、ServiceTicketReplyMapper、ServiceTicketAttachmentMapper
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Service
 public class ServiceTicketServiceImpl implements ServiceTicketService {

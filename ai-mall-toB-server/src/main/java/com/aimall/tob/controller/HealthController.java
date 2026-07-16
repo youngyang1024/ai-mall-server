@@ -10,7 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 健康检查
+ * 健康检查：提供 /admin/health 服务健康检查接口，返回服务名与运行状态
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Api(tags = "健康检查")
 @RestController

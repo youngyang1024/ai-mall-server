@@ -5,7 +5,10 @@
       <div class="dashboard-card profile-summary-card">
         <div class="card-header border-bottom">
           <h2 class="welcome-text">Hi, {{ userInfo.nickname || userInfo.username }}</h2>
-          <a href="javascript:;" class="edit-link" @click="showProfile = true">编辑资料 ></a>
+          <div class="header-links">
+            <a href="javascript:;" class="edit-link" @click="showProfile = true">编辑资料 ></a>
+            <a href="javascript:;" class="edit-link" @click="openPasswordForm">修改密码 ></a>
+          </div>
         </div>
         <div class="stats-grid">
               <div class="stat-item" @click="$router.push('/coupon?status=0')">
@@ -16,8 +19,8 @@
             <div class="stat-value">0</div>
             <div class="stat-label">积分</div>
           </div>
-          <div class="stat-item disabled">
-            <div class="stat-value">0</div>
+          <div class="stat-item" @click="$router.push('/user/favorite')">
+            <div class="stat-value">{{ favoriteCount }}</div>
             <div class="stat-label">心愿单</div>
           </div>
           <div class="stat-item disabled">
@@ -56,6 +59,8 @@
       <!-- 移动端额外入口 -->
       <div class="dashboard-card mobile-nav-card" v-if="isMobile">
         <van-cell title="收货地址" is-link to="/user/address" />
+        <van-cell title="我的评价" is-link to="/user/review" />
+        <van-cell title="修改密码" is-link @click="openPasswordForm" />
         <van-cell title="退出登录" is-link @click="handleLogout" />
       </div>
     </template>
@@ -95,13 +100,45 @@
         </van-form>
       </div>
     </van-popup>
+
+    <!-- 修改密码弹窗 -->
+    <van-popup
+      v-model="showPassword"
+      :position="isMobile ? 'bottom' : 'center'"
+      round
+      :class="isMobile ? 'mobile-popup' : 'pc-popup'"
+      :style="isMobile ? { height: 'auto' } : { width: '420px' }"
+      closeable
+    >
+      <div class="popup-header">修改密码</div>
+      <div class="popup-content">
+        <form class="profile-form" @submit.prevent="savePassword">
+          <div class="form-group">
+            <label>当前密码</label>
+            <input type="password" v-model="passwordForm.oldPassword" class="custom-input" placeholder="请输入当前密码" autocomplete="current-password" />
+          </div>
+          <div class="form-group">
+            <label>新密码</label>
+            <input type="password" v-model="passwordForm.newPassword" class="custom-input" placeholder="请输入新密码（至少6位）" autocomplete="new-password" />
+          </div>
+          <div class="form-group">
+            <label>确认新密码</label>
+            <input type="password" v-model="passwordForm.confirmPassword" class="custom-input" placeholder="请再次输入新密码" autocomplete="new-password" />
+          </div>
+          <button class="shopify-btn submit-btn" type="submit" :disabled="passwordSubmitting">
+            {{ passwordSubmitting ? '提交中...' : '确认修改' }}
+          </button>
+        </form>
+      </div>
+    </van-popup>
   </div>
 </template>
 
 <script>
 import { logout } from '@/api/auth'
-import { getUserInfo, updateUserInfo } from '@/api/user'
+import { getUserInfo, updateUserInfo, updatePassword } from '@/api/user'
 import { getMyCoupons } from '@/api/coupon'
+import { getFavoriteCount } from '@/api/favorite'
 
 export default {
   name: 'UserCenter',
@@ -109,7 +146,11 @@ export default {
     return {
       showProfile: false,
       profileForm: { nickname: '', phone: '' },
-      myCouponCount: 0
+      myCouponCount: 0,
+      favoriteCount: 0,
+      showPassword: false,
+      passwordSubmitting: false,
+      passwordForm: { oldPassword: '', newPassword: '', confirmPassword: '' }
     }
   },
   computed: {
@@ -123,6 +164,7 @@ export default {
         this.$store.commit('SET_USER_INFO', res.data)
       }
       this.loadCoupons()
+      this.loadFavoriteCount()
     }
   },
   methods: {
@@ -135,6 +177,46 @@ export default {
         this.myCouponCount = (res.data || []).length
       } catch (e) {
         // ignore
+      }
+    },
+    async loadFavoriteCount() {
+      try {
+        const res = await getFavoriteCount()
+        this.favoriteCount = res.data || 0
+      } catch (e) {
+        // ignore
+      }
+    },
+    openPasswordForm() {
+      this.passwordForm = { oldPassword: '', newPassword: '', confirmPassword: '' }
+      this.showPassword = true
+    },
+    async savePassword() {
+      const { oldPassword, newPassword, confirmPassword } = this.passwordForm
+      if (!oldPassword) {
+        this.$toast('请输入当前密码')
+        return
+      }
+      if (!newPassword || newPassword.length < 6) {
+        this.$toast('新密码至少6位')
+        return
+      }
+      if (newPassword !== confirmPassword) {
+        this.$toast('两次输入的新密码不一致')
+        return
+      }
+      this.passwordSubmitting = true
+      try {
+        await updatePassword({ oldPassword, newPassword })
+        this.showPassword = false
+        this.$toast.success('密码修改成功，请重新登录')
+        this.$store.commit('SET_TOKEN', '')
+        this.$store.commit('SET_USER_INFO', null)
+        this.$router.push('/login')
+      } catch (e) {
+        // error handled globally
+      } finally {
+        this.passwordSubmitting = false
       }
     },
     async handleLogout() {
@@ -189,6 +271,10 @@ export default {
   font-size: 18px;
   font-weight: 600;
   margin: 0;
+}
+.header-links {
+  display: flex;
+  gap: 16px;
 }
 .edit-link {
   font-size: 13px;

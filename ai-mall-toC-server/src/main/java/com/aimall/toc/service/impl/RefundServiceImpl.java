@@ -21,6 +21,16 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+/**
+ * C端退款服务，负责退款申请及用户退款单列表、详情查询
+ *
+ * <p>1. 申请退款校验：订单归属当前用户，且状态为待发货或已发货，同一订单不允许存在多个待审核的退款申请
+ * <p>2. 创建退款单：按订单实付金额生成退款单（状态置为待审核），并记录申请前的订单状态（orderStatusBefore），供审核驳回时恢复
+ * <p>3. 订单状态流转：通过带原状态条件的 UPDATE 将订单置为退款中，更新失败则整体回滚，防止并发状态冲突
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class RefundServiceImpl implements RefundService {
 

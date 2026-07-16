@@ -10,7 +10,13 @@ import java.util.Locale;
 import java.util.Set;
 
 /**
- * 服务工单附件校验工具
+ * 服务工单附件校验工具类，校验上传附件的格式与大小，不符合规则时抛出 BusinessException
+ * <p>1. 非空校验：文件为空直接拒绝
+ * <p>2. 格式校验：按文件扩展名判断类型，图片仅支持 jpg/jpeg/gif/png/bmp，视频仅支持 mp4/rmvb
+ * <p>3. 大小校验：图片不超过 30MB，视频不超过 50MB
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 public final class ServiceTicketAttachmentValidator {
 

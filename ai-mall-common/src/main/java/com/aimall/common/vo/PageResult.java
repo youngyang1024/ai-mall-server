@@ -5,7 +5,10 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 分页结果
+ * 分页结果封装对象，包含数据列表、总条数及分页参数（pageNum、pageSize），提供 of 静态工厂方法
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Data
 public class PageResult<T> {

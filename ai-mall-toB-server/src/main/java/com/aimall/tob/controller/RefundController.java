@@ -10,6 +10,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * B端退款审核接口：列表（按状态分页查询）/详情/审核通过/审核拒绝
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "退款审核")
 @RestController
 @RequestMapping("/admin/refund")

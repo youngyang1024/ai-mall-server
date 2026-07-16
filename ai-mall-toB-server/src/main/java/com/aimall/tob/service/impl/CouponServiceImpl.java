@@ -9,6 +9,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * B端优惠券管理服务实现，基于 CouponMapper 提供列表与增删改；新增/更新前校验有效期结束时间不早于开始时间，新增时 type 与 status 缺省为 1，更新/删除前校验记录存在
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class CouponServiceImpl implements CouponService {
 

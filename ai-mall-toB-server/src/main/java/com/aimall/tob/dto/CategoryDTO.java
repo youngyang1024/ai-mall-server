@@ -7,6 +7,12 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+/**
+ * 商品分类新增/更新请求参数：承载分类名称、父分类ID、排序值、状态字段，用于商家后台分类管理
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Data
 @ApiModel("分类请求")
 public class CategoryDTO {

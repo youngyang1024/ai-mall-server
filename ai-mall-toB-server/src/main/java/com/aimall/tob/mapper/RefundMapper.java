@@ -6,6 +6,12 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * t_refund 表数据访问，提供退款单列表查询、审批通过/驳回状态更新等操作
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Mapper
 public interface RefundMapper {
 

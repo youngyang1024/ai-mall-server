@@ -5,7 +5,10 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 服务工单主表
+ * 服务工单主表实体，对应表 t_service_ticket，记录工单号、问题分类快照、关联订单号、问题描述、处理状态、联系人信息及最后回复方
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Data
 public class ServiceTicket {

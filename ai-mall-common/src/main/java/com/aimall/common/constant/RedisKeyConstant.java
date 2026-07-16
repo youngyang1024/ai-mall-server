@@ -1,7 +1,10 @@
 package com.aimall.common.constant;
 
 /**
- * Redis Key 常量
+ * Redis Key 常量类，统一管理登录 Token、订单超时等缓存 Key 的前缀与拼接规则，避免各模块散落硬编码
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 public final class RedisKeyConstant {
 

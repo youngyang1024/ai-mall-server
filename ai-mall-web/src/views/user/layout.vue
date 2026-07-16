@@ -16,6 +16,7 @@
             <li><router-link to="/order?status=1" :class="{ active: isOrderList && isStatus(1) }">待发货</router-link></li>
             <li><router-link to="/order?status=2" :class="{ active: isOrderList && isStatus(2) }">已发货</router-link></li>
             <li><router-link to="/refund" :class="{ active: $route.path.startsWith('/refund') }">售后中心</router-link></li>
+            <li><router-link to="/user/review" :class="{ active: $route.path === '/user/review' }">我的评价</router-link></li>
           </ul>
         </div>
 
@@ -33,7 +34,7 @@
             <li><router-link to="/user" exact-active-class="active">个人资料</router-link></li>
             <li><router-link to="/user/address" :class="{ active: $route.path === '/user/address' }">收货地址</router-link></li>
             <li><router-link to="/service-ticket" :class="{ active: $route.path.startsWith('/service-ticket') }">我的工单</router-link></li>
-            <li><a href="javascript:;" class="disabled">我的心愿单</a></li>
+            <li><router-link to="/user/favorite" :class="{ active: $route.path === '/user/favorite' }">我的心愿单</router-link></li>
             <li><a href="javascript:;" class="disabled">浏览记录</a></li>
           </ul>
         </div>
@@ -60,6 +61,8 @@ export default {
     isLogin() { return this.$store.getters.isLogin },
     pageTitle() {
       if (this.$route.path === '/user') return '个人中心'
+      if (this.$route.path === '/user/review') return '我的评价'
+      if (this.$route.path === '/user/favorite') return '我的心愿单'
       if (this.$route.path.startsWith('/order')) return '我的订单'
       if (this.$route.path.startsWith('/coupon')) return '优惠券'
       if (this.$route.path.startsWith('/refund')) return '售后中心'

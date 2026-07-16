@@ -5,7 +5,10 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 统一 API 响应体
+ * 统一 API 响应体，封装 code、message、data 三段式返回结构，提供 success/fail 静态工厂方法
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Data
 public class Result<T> implements Serializable {

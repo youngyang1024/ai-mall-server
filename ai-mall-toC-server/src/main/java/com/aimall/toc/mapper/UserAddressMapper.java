@@ -6,6 +6,12 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * 用户收货地址表 Mapper：地址的增删改查及默认地址的清除与设置
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Mapper
 public interface UserAddressMapper {
 

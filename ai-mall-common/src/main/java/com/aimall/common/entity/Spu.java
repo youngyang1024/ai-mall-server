@@ -6,7 +6,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 商品 SPU
+ * 商品 SPU 实体，对应表 t_spu，记录商品基础信息（名称、分类、描述、主图、上架状态、销量），categoryName 与 minPrice 为查询展示用非表字段
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Data
 public class Spu {

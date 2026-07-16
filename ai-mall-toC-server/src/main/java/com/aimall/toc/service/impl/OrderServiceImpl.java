@@ -25,6 +25,16 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+/**
+ * C端订单核心服务，覆盖下单、支付、取消、确认收货、超时取消及订单查询的完整生命周期
+ *
+ * <p>1. 下单流程：校验收货地址归属与购物车选中商品（商品在架、SKU 存在、库存充足），可选优惠券计算抵扣金额（校验归属/状态/有效期/门槛），生成订单及明细后按 SKU 原子扣减库存（UPDATE 带 stock >= quantity 条件，扣减失败即库存不足回滚事务），清理购物车并写入 Redis 支付超时 key（TTL 由 OrderProperties 配置，默认 30 分钟）
+ * <p>2. 状态机流转：支付（仅待支付可支付，条件 UPDATE 置为待发货并记录支付时间、累加 SPU 销量、标记优惠券已使用、删除超时 key）；取消（仅待支付可取消）；确认收货（仅已发货可确认，置为已完成）
+ * <p>3. 超时取消 cancelExpiredOrder 为幂等操作：仅处理待支付订单，通过带原状态条件的 UPDATE 抢占取消资格，抢占成功才回滚库存并删除超时 key，供 OrderTimeoutListener 与 OrderTimeoutScheduleTask 双保险机制重复调用而不会重复回滚
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class OrderServiceImpl implements OrderService {
 

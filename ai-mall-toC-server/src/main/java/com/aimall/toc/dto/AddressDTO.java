@@ -5,6 +5,12 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * 收货地址新增/编辑请求 DTO：收货人、联系电话、省市区及详细地址
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Data
 @ApiModel("收货地址请求")
 public class AddressDTO {

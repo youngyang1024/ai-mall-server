@@ -4,7 +4,10 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 热门搜索词
+ * 热门搜索词实体，对应表 t_hot_search，维护搜索页展示的推荐关键词及其热门标记、排序与启用状态
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Data
 public class HotSearch {

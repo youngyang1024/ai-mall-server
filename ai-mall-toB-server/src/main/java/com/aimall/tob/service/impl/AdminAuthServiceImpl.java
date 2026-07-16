@@ -17,7 +17,14 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 管理员认证服务实现
+ * 管理员认证服务实现，基于 JWT + Redis 维护 B 端登录态
+ * <p>1. 登录校验：按用户名查询管理员，校验账号未禁用且 BCrypt 密码匹配；用户不存在与密码错误统一提示"用户名或密码错误"
+ * <p>2. 签发 token：通过 JwtUtil 生成携带管理员 id、B 端用户类型、用户名的 JWT token，并以 RedisKeyConstant.tokenKey 为 key 写入 Redis，过期时间取 jwt.expiration 配置（毫秒）
+ * <p>3. 登出：删除 Redis 中该管理员的 tokenKey，使 token 立即失效（服务端登录态以 Redis 中的 token 为准）
+ * <p>4. 依赖 AdminMapper、JwtUtil、RedisUtil、BCryptPasswordEncoder
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Service
 public class AdminAuthServiceImpl implements AdminAuthService {

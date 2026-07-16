@@ -11,7 +11,10 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 /**
- * Knife4j / Swagger 配置（B端）
+ * Knife4j / Swagger 配置（B端）：配置 Docket 扫描 com.aimall.tob.controller 包下全部接口，生成"AI Mall B端管理 API"接口文档
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Configuration
 @EnableSwagger2WebMvc

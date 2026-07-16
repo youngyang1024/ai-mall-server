@@ -5,6 +5,12 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * 申请退款请求 DTO：订单号及退款原因
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Data
 @ApiModel("申请退款")
 public class RefundApplyDTO {

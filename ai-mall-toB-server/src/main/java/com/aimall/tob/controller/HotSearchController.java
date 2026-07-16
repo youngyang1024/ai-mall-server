@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * B端热门搜索管理接口：列表/详情/创建/更新/删除
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "热门搜索管理接口")
 @RestController
 @RequestMapping("/admin/hot-search")

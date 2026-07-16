@@ -9,6 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+/**
+ * B端热门搜索词管理服务实现，基于 HotSearchMapper 提供列表与增删改，新增时 sort 默认 0、status 默认启用
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class HotSearchServiceImpl implements HotSearchService {
 

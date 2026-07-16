@@ -9,6 +9,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * B端轮播图管理服务实现，基于 BannerMapper 提供列表与增删改，新增时 sort 默认 0、status 默认启用，更新/删除前校验记录存在
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Service
 public class BannerServiceImpl implements BannerService {
 

@@ -6,7 +6,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 商品 SKU
+ * 商品 SKU 实体，对应表 t_sku，记录 SPU 下具体规格组合（specJson）的售价、库存、图片及 SKU 编码
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Data
 public class Sku {

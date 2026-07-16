@@ -16,6 +16,10 @@
         SELECT * FROM t_sku WHERE spu_id = #{spuId} ORDER BY id ASC
     </select>
 
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM t_sku WHERE id = #{id} LIMIT 1
+    </select>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO t_sku (spu_id, spec_json, price, stock, image, sku_code)
         VALUES (#{spuId}, #{specJson}, #{price}, #{stock}, #{image}, #{skuCode})
@@ -27,5 +31,9 @@
 
     <update id="restoreStock">
         UPDATE t_sku SET stock = stock + #{quantity} WHERE id = #{id}
+    </update>
+
+    <update id="updateStock">
+        UPDATE t_sku SET stock = #{stock} WHERE id = #{id}
     </update>
 </mapper>

@@ -3,15 +3,18 @@
     <el-aside width="200px" class="aside">
       <div class="logo">AI Mall</div>
       <el-menu :default-active="$route.path" router background-color="#304156" text-color="#bfcbd9" active-text-color="#409EFF">
-        <el-menu-item index="/">首页</el-menu-item>
-        <el-menu-item index="/category">分类管理</el-menu-item>
-        <el-menu-item index="/product">商品管理</el-menu-item>
-        <el-menu-item index="/order">订单管理</el-menu-item>
-        <el-menu-item index="/banner">轮播图管理</el-menu-item>
-        <el-menu-item index="/hot-search">热门搜索</el-menu-item>
-        <el-menu-item index="/coupon">优惠券管理</el-menu-item>
-        <el-menu-item index="/refund">退款审核</el-menu-item>
-        <el-menu-item index="/service-ticket">工单管理</el-menu-item>
+        <el-menu-item index="/"><i class="el-icon-s-home"></i><span>首页</span></el-menu-item>
+        <el-menu-item index="/category"><i class="el-icon-menu"></i><span>分类管理</span></el-menu-item>
+        <el-menu-item index="/product"><i class="el-icon-goods"></i><span>商品管理</span></el-menu-item>
+        <el-menu-item index="/order"><i class="el-icon-s-order"></i><span>订单管理</span></el-menu-item>
+        <el-menu-item index="/banner"><i class="el-icon-picture-outline"></i><span>轮播图管理</span></el-menu-item>
+        <el-menu-item index="/hot-search"><i class="el-icon-search"></i><span>热门搜索</span></el-menu-item>
+        <el-menu-item index="/coupon"><i class="el-icon-s-ticket"></i><span>优惠券管理</span></el-menu-item>
+        <el-menu-item index="/refund"><i class="el-icon-refresh-left"></i><span>退款审核</span></el-menu-item>
+        <el-menu-item index="/service-ticket"><i class="el-icon-service"></i><span>工单管理</span></el-menu-item>
+        <el-menu-item index="/user"><i class="el-icon-user"></i><span>用户管理</span></el-menu-item>
+        <el-menu-item index="/faq"><i class="el-icon-question"></i><span>帮助中心</span></el-menu-item>
+        <el-menu-item index="/review"><i class="el-icon-chat-line-square"></i><span>评价管理</span></el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>

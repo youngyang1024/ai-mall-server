@@ -6,7 +6,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * 商品分类
+ * 商品分类实体，对应表 t_category，通过 parentId 支持多级分类，children 字段用于组装树形结构
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Data
 public class Category {

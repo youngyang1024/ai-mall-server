@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * C端帮助中心（FAQ）接口：查询启用的分类列表/按分类或关键词查询文章
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "C端帮助中心")
 @RestController
 @RequestMapping("/api/faq")

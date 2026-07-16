@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * C端购物车接口：列表/加购/更新/全选切换/删除单项/清空
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "购物车")
 @RestController
 @RequestMapping("/api/cart")
@@ -41,6 +47,13 @@ public class CartController {
     @PutMapping("/update")
     public Result<Void> update(@Validated @RequestBody CartUpdateDTO dto) {
         cartService.update(UserContext.getUserId(), dto);
+        return Result.success();
+    }
+
+    @ApiOperation("全选/取消全选")
+    @PutMapping("/check-all")
+    public Result<Void> checkAll(@RequestParam Integer checked) {
+        cartService.checkAll(UserContext.getUserId(), checked);
         return Result.success();
     }
 

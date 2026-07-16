@@ -7,6 +7,12 @@ import org.apache.ibatis.annotations.Param;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * 订单表 Mapper：订单创建与查询，以及支付、完成、退款等状态流转更新（含超时未支付订单查询）
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Mapper
 public interface OrderMapper {
 

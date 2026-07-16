@@ -11,6 +11,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * C端退款接口：申请退款/退款列表/退款详情
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "退款")
 @RestController
 @RequestMapping("/api/refund")

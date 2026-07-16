@@ -23,7 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * B端服务工单接口
+ * B端服务工单接口：工单管理，提供列表（按状态/工单号/订单号分页查询）/详情/回复工单/修改工单状态/上传工单附件（附件校验后上传 S3）
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Api(tags = "服务工单管理")
 @RestController

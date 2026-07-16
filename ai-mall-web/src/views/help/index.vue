@@ -48,7 +48,7 @@
                 :title="art.title" 
                 :name="art.id"
               >
-                <div class="article-content" v-html="art.content"></div>
+                <div class="article-content" v-safe-html="art.content"></div>
               </van-collapse-item>
             </van-collapse>
             

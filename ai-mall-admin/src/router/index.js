@@ -13,6 +13,9 @@ import CouponPage from '@/views/coupon/index.vue'
 import RefundPage from '@/views/refund/list.vue'
 import HotSearchPage from '@/views/hot-search/index.vue'
 import ServiceTicketPage from '@/views/service-ticket/index.vue'
+import UserManagePage from '@/views/user-manage/index.vue'
+import FaqPage from '@/views/faq/index.vue'
+import ReviewPage from '@/views/review/index.vue'
 
 Vue.use(VueRouter)
 
@@ -32,7 +35,10 @@ const routes = [
       { path: 'hot-search', name: 'HotSearch', component: HotSearchPage },
       { path: 'coupon', name: 'Coupon', component: CouponPage },
       { path: 'refund', name: 'Refund', component: RefundPage },
-      { path: 'service-ticket', name: 'ServiceTicket', component: ServiceTicketPage }
+      { path: 'service-ticket', name: 'ServiceTicket', component: ServiceTicketPage },
+      { path: 'user', name: 'UserManage', component: UserManagePage },
+      { path: 'faq', name: 'Faq', component: FaqPage },
+      { path: 'review', name: 'Review', component: ReviewPage }
     ]
   }
 ]

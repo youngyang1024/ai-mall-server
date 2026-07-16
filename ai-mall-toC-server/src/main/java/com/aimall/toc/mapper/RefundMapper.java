@@ -6,6 +6,12 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * 退款单表 Mapper：退款申请的新增与查询，及订单维度处理中退款计数
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Mapper
 public interface RefundMapper {
 

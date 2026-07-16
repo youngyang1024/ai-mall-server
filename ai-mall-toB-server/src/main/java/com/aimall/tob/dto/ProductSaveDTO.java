@@ -11,6 +11,12 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * 商品保存请求参数：承载SPU基本信息（名称、分类、描述、主图、上架状态）及规格维度列表、SKU列表、商品图片列表，用于商家后台商品新增/更新
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Data
 @ApiModel("商品保存请求")
 public class ProductSaveDTO {

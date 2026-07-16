@@ -6,6 +6,12 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * t_banner 表数据访问，提供 Banner 列表查询、新增、更新、删除等操作
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Mapper
 public interface BannerMapper {
 

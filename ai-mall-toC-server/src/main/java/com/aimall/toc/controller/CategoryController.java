@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * C端商品分类接口：查询分类树
+ *
+ * @author
+ * Created by Yang on 2026/07/16
+ */
 @Api(tags = "分类")
 @RestController
 @RequestMapping("/api/category")

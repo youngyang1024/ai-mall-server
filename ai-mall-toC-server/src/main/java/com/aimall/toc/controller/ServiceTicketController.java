@@ -27,7 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 /**
- * C端服务工单接口
+ * C端服务工单接口：问题选项/提交工单/我的工单列表/详情/继续跟进/完成工单/上传附件
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Api(tags = "服务工单")
 @RestController

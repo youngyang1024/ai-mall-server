@@ -11,7 +11,10 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 /**
- * Knife4j / Swagger 配置（C端）
+ * Knife4j / Swagger 接口文档配置（C端），扫描 controller 包生成 API 文档
+ *
+ * @author
+ * Created by Yang on 2026/07/16
  */
 @Configuration
 @EnableSwagger2WebMvc
