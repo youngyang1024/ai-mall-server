@@ -20,7 +20,7 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
 
 pagehelper:
   helper-dialect: mysql
@@ -36,8 +36,8 @@ order:
 
 aws:
   s3:
-    accessKeyId:
-    accessKeySecret:
-    regionName:
-    defaultBucket:
-    prefix:
+    accessKeyId: ${AWS_ACCESS_KEY_ID:}
+    accessKeySecret: ${AWS_SECRET_ACCESS_KEY:}
+    regionName: ${AWS_REGION:us-east-1}
+    defaultBucket: ${AWS_S3_BUCKET:media-local-s3}
+    prefix: ${AWS_S3_PREFIX:growth/dev}

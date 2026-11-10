@@ -4,6 +4,10 @@
 openspec/
 scripts/
 
+### ai-mall-agent-server ###
+ai-mall-agent-server/logs/
+ai-mall-agent-server/data/
+
 ### Node ###
 node_modules/
 dist/

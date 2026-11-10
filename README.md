@@ -46,7 +46,7 @@ mysql -u root -p ai_mall < docs/sql/seed_data.sql
 ```
 
 `seed_data.sql` 包含：
-- **27 个分类**（6 个一级 + 21 个二级，结构参考 [Homary](https://www.homary.com/)）
+- **27 个分类**（6 个一级 + 21 个二级）
 - **100 个上架商品**（名称已翻译为中文，图片 URL 直接复用 Homary CDN）
 - **3 张首页轮播图**
 

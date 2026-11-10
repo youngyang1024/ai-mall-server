@@ -9,7 +9,8 @@ module.exports = {
       }
     },
     proxy: {
-      '/api': { target: 'http://localhost:9091', changeOrigin: true }
+      '/api': { target: 'http://localhost:9091', changeOrigin: true },
+      '/agent': { target: 'http://localhost:7071', changeOrigin: true }
     }
   }
 }

@@ -23,6 +23,7 @@ import HelpCenterPage from '@/views/help/index.vue'
 import ServiceCenterPage from '@/views/service-center/index.vue'
 import ServiceTicketListPage from '@/views/service-ticket/list.vue'
 import ServiceTicketDetailPage from '@/views/service-ticket/detail.vue'
+import AiChatPage from '@/views/ai-chat/index.vue'
 
 import CouponPage from '@/views/coupon/index.vue'
 
@@ -69,6 +70,7 @@ const routes = [
   { path: '/coupon-center', name: 'CouponCenter', component: CouponCenterPage, meta: { public: true } },
   { path: '/help', name: 'HelpCenter', component: HelpCenterPage, meta: { public: true } },
   { path: '/service-center', name: 'ServiceCenter', component: ServiceCenterPage, meta: { public: true, tabbar: true } },
+  { path: '/ai-chat', name: 'AiChat', component: AiChatPage, meta: { public: true } },
   
   // 会员中心及附属页面，使用 UserLayout 嵌套路由
   {

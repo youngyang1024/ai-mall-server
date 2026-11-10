@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aimall.agent.mapper.AiSessionMapper">
+
+    <insert id="insert" parameterType="com.aimall.agent.entity.AiSession" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_ai_session (session_id, user_id, eid, title, status, last_active_time)
+        VALUES (#{sessionId}, #{userId}, #{eid}, #{title}, #{status}, #{lastActiveTime})
+    </insert>
+
+    <select id="selectBySessionId" resultType="com.aimall.agent.entity.AiSession">
+        SELECT * FROM t_ai_session WHERE session_id = #{sessionId}
+    </select>
+
+    <select id="selectByUserId" resultType="com.aimall.agent.entity.AiSession">
+        SELECT * FROM t_ai_session
+        WHERE user_id = #{userId} AND status = 'ACTIVE'
+        ORDER BY last_active_time DESC
+    </select>
+
+    <select id="selectByEid" resultType="com.aimall.agent.entity.AiSession">
+        SELECT * FROM t_ai_session
+        WHERE eid = #{eid} AND user_id IS NULL AND status = 'ACTIVE'
+        ORDER BY last_active_time DESC
+    </select>
+
+    <update id="updateTitle">
+        UPDATE t_ai_session SET title = #{title} WHERE session_id = #{sessionId}
+    </update>
+
+    <update id="updateLastActiveTime">
+        UPDATE t_ai_session SET last_active_time = NOW() WHERE session_id = #{sessionId}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE t_ai_session SET status = #{status} WHERE session_id = #{sessionId}
+    </update>
+
+    <update id="bindUserByEid">
+        UPDATE t_ai_session SET user_id = #{userId} WHERE eid = #{eid} AND user_id IS NULL
+    </update>
+
+</mapper>

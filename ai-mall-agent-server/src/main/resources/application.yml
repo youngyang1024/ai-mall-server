@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: ai-mall-agent-server
+  profiles:
+    active: dev
+  ai:
+    openai:
+      # 对话主力：中转站（OpenAI 兼容协议，模型填 Claude 型号）
+      base-url: ${RELAY_BASE_URL:https://relay.example.com}
+      api-key: ${RELAY_API_KEY:replace-me}
+      chat:
+        options:
+          model: ${RELAY_CHAT_MODEL:claude-sonnet-4-6}
+          temperature: 0.7
+      # Embedding：硅基流动 bge-m3（中转站无 /v1/embeddings 端点，独立 provider）
+      embedding:
+        base-url: ${SILICONFLOW_BASE_URL:https://api.siliconflow.cn}
+        api-key: ${SILICONFLOW_API_KEY:replace-me}
+        options:
+          model: ${EMBEDDING_MODEL:BAAI/bge-m3}
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/ai_mall?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:replace-me}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+
+server:
+  port: 7071
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+# JWT 校验（与 V1 toC 共用同一 secret，用于解析 C 端登录态）
+jwt:
+  secret: ${JWT_SECRET:replace-me}
+
+# V1 服务地址（工具层 HTTP 调用）
+aimall:
+  toc-base-url: ${TOC_BASE_URL:http://localhost:9091}
+  tob-base-url: ${TOB_BASE_URL:http://localhost:8081}
+  # 与 toB 内部只读接口约定的服务间调用令牌
+  internal-token: ${INTERNAL_TOKEN:replace-me}
+  # 模型厂商 api_key 的 AES 加密密钥（t_ai_model_provider）
+  aes-key: ${AI_AES_KEY:replace-me}
+  # 向量库本地持久化文件目录（SimpleVectorStore）
+  vector-store-dir: ${VECTOR_STORE_DIR:./data/vector-store}

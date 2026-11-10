@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aimall.tob.mapper.InternalDataMapper">
+
+    <select id="selectFaqList" resultType="com.aimall.common.entity.FaqArticle">
+        SELECT id, category_id, title, content, sort, status, create_time, update_time
+        FROM t_faq_article
+        <where>
+            <if test="updatedSince != null">
+                AND update_time &gt; #{updatedSince}
+            </if>
+        </where>
+        ORDER BY id
+    </select>
+
+    <select id="selectProductList" resultType="java.util.LinkedHashMap">
+        SELECT s.id                                   AS spuId,
+               s.name                                 AS name,
+               c.name                                 AS categoryName,
+               s.description                          AS description,
+               s.main_image                           AS mainImage,
+               s.status                               AS status,
+               s.sales_count                          AS salesCount,
+               MIN(k.price)                           AS minPrice,
+               MAX(k.price)                           AS maxPrice,
+               COALESCE(SUM(k.stock), 0)              AS totalStock,
+               <!-- 每条 spec_json 截前 120 字符再聚合，规避 GROUP_CONCAT 默认 1024 上限的静默截断 -->
+               GROUP_CONCAT(SUBSTRING(k.spec_json, 1, 120) SEPARATOR ';') AS specSummary,
+               s.update_time                          AS updateTime
+        FROM t_spu s
+        LEFT JOIN t_category c ON c.id = s.category_id
+        LEFT JOIN t_sku k ON k.spu_id = s.id
+        <where>
+            <if test="updatedSince != null">
+                AND s.update_time &gt; #{updatedSince}
+            </if>
+        </where>
+        GROUP BY s.id
+        ORDER BY s.id
+    </select>
+
+</mapper>

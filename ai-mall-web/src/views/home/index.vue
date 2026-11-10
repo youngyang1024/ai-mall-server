@@ -132,6 +132,8 @@
         </div>
       </section>
     </div>
+    <!-- AI 购物助手悬浮入口 -->
+    <ai-assistant-entry />
   </page-shell>
 </template>
 
@@ -139,10 +141,11 @@
 import { getCategoryTree, getHotRecommend, getHotSearchList } from '@/api/product'
 import { getBannerList } from '@/api/banner'
 import ProductRecommendSection from '@/components/ProductRecommendSection.vue'
+import AiAssistantEntry from '@/components/AiAssistantEntry.vue'
 
 export default {
   name: 'Home',
-  components: { ProductRecommendSection },
+  components: { ProductRecommendSection, AiAssistantEntry },
   data() {
     return {
       keyword: '',

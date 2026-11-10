@@ -18,6 +18,7 @@
 <script>
 import { login } from '@/api/auth'
 import { getUserInfo } from '@/api/user'
+import { bindGuestSessions } from '@/api/ai-assistant'
 
 export default {
   name: 'Login',
@@ -32,6 +33,8 @@ export default {
         this.$store.commit('SET_TOKEN', res.data.token)
         const infoRes = await getUserInfo()
         this.$store.commit('SET_USER_INFO', infoRes.data)
+        // 游客期的 AI 会话绑定到登录用户（失败不影响登录流程）
+        bindGuestSessions().catch(() => {})
         this.$toast.success('登录成功')
         this.$router.replace(this.$route.query.redirect || '/user')
       } finally {

@@ -1,0 +1,30 @@
+# dev 环境：数据库/Redis 对齐 toB/toC 的 dev 配置；模型 API Key 待申请后替换（本文件不提交真实凭证）
+spring:
+  ai:
+    openai:
+      base-url: https://relay.example.com
+      api-key: replace-me
+      embedding:
+        base-url: https://api.siliconflow.cn
+        api-key: replace-me
+  datasource:
+    url: jdbc:mysql://mysql.infra.dev.ug:3306/ai_mall?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: ads_feeds
+    password: ads_feeds
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: redis.infra.dev.ug
+      port: 6379
+      # 与 toC 同库：需读取 V1 登录 Token（token:c:{userId}）做单端登录校验
+      database: 15
+
+# 与 V1 toC 相同的 JWT secret（解析 C 端登录态）
+jwt:
+  secret: ai-mall-jwt-secret-key-2026
+
+aimall:
+  toc-base-url: http://localhost:9091
+  tob-base-url: http://localhost:8081
+  internal-token: replace-me
+  aes-key: replace-me
